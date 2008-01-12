@@ -2,7 +2,7 @@
 
 = Components =
 == Introduction ==
-A “component”(or proclet) is the building block of the VisualAp environment.
+A [component] (or proclet) is the building block of the VisualAp environment.
 
 A component is shown with its icon plus a number of terminals. 
 
