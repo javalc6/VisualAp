@@ -1,0 +1,87 @@
+#summary Description of the User Iterface
+
+= User Interface =
+== Description ==
+This program creates a graphic window with a menu, a workplace panel and a toolbox panel. When needed, a floating window appears to show properties of the components.
+
+
+From the application menu it is possible to open a file dialog, print dialog, help window, preference dialog, an about box and exit.
+
+It is possible to create, move, edit any components in the workplace panel using the mouse buttons.
+
+
+Components can be connected together by first pressing the mouse button over a terminal, then move the mouse pointer over another terminal and then release the mouse button: an edge between the two terminals is created.
+
+Popup menu is shown when the right button of the mouse is pressed over the workplace panel. Note that mouse cursor changes when specific actions are performed, e.g. during dragging.
+
+It is possible to use keyboard accelerators like Ctrl+C, Ctrl+X, Ctrl+V, Ctrl+S, Ctrl+N, Ctrl+O, Ctrl+P, F1.
+
+The program supports selections of multiple objects by dragging the mouse cursor. Copy and paste are supported.
+
+
+The toolbox shows the available javabeans (proclet) via their icons and names. The user can select a javabean by clicking the mouse pointer in the toolbox area. After releasing the mouse button, the cursor changes to cross-hair cursor indicating that a javabean was selected. Then you move the cross-hair cursor in the left panel and click again: when the mouse button is released, the selected javabean is placed in the workplace panel.
+
+
+It is possible to view/modify the configuration of a component by double-click over a component in the workplace panel.
+
+Properties of components are shown in the "properties" floating window. It is possible to change each property of a component by changing data inside the "properties" windows.
+
+In case you set data that are not allowed by the component, a dialog box will pop-up explaining the limitation.
+
+
+== Details about available menu ==
+=== File Menu ===
+New: creates a new system. Accelerator: Ctrl+N
+
+
+Open: open an existing system (.vas is the filetype for VisualAp systems). Accelerator: Ctrl+O
+
+
+Save: save the current system (noname.vas in case no filename has been defined). Accelerator: Ctrl+S
+
+
+Save as: save the current system using a specified file name
+
+
+Print: print the current system. Accelerator: Ctrl+P
+
+
+Quit: quits VisualAp
+
+
+=== Edit menu ===
+Properties: displays the selected component properties (the same command is available by right-clicking the mouse over the component in the workspace panel)
+
+
+Cut: delete the selected component (the same command is available by right-clicking the mouse over the component in the workspace panel). Accelerator: Ctrl+X
+
+
+Unbind: removes all the edges connected to the selected component (the same command is available by right-clicking the mouse over the component in the workspace panel)
+
+
+Copy: copy the selected component (the same command is available by right-clicking the mouse over the component in the workspace panel). Accelerator: Ctrl+C
+
+
+Paste: insert a copy of the clipboard in the workspace panel (the same command is available by right-clicking the mouse in a free area of the workspace panel). Accelerator: Ctrl+V
+
+
+Insert: insert a new component in the workspace panel (the same command is available by right-clicking the mouse in a free area of the workspace panel)
+
+
+=== System menu ===
+Check: performs a check of the correctness of the current system
+
+
+Run: run process simulation of the current system
+
+
+=== Tools menu ===
+Preferences: Set preferences
+
+
+=== Help menu ===
+Help Topics: display the Help window. Accelerator: F1
+
+Help on beans: display the help information related to available beans
+
+About VisualAp: Displays the version number of VisualAp
