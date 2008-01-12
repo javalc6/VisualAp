@@ -1,0 +1,34 @@
+#summary Installation and start of VisualAp
+
+
+= Installation and start of visualap =
+Note: VisualAp requires either JRE or JDK, version 1.5 or later. Please download it before installing VisualAp. Further details are available here: [http://java.com/en/download/index.jsp Free Java Download]
+
+== Basic users (Windows 2000 or Windows XP required) ==
+Download VisualAp-Setup.exe file and execute it in windows environment.The installation program will create a directory, putting needed files, adding windows registry keys and short-cuts in Windows start menu.
+
+
+This installation does not include source files. If you are interested in source files, follow the expert users path in following section.
+
+== Expert users ==
+Download the visualap.jar file. Create a directory, e.g. Visualap, and unpack visualap.jar in that directory. Such installation does not set windows registry keys nor short-cuts, in case you need it, use the file VisualAp-Setup.exe.On the other hand visualap.jar includes all sources.
+
+
+The simple way to launch the program is to run visualap.bat in a DOS window:
+
+
+ Usage
+        java visualap.VisualAp  <nowiki>[-fast] [-run] [-report] [-uniqueID] [-help] <filename></nowiki>
+        java -jar visualap.jar  <nowiki>[-fast] [-run] [-report] [-uniqueID] [-help] <filename></nowiki>
+
+ Command line options:
+ -fast       fast startup
+ -run        automatic run
+ -report     print a report about available beans
+ -uniqueID   print uniqueID
+ -help       this help
+
+
+To compile VisualAp: execute the file build.bat in a DOS window
+
+To compile example beans: execute the file buildtest.bat in a DOS window
