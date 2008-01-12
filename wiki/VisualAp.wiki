@@ -16,7 +16,7 @@ In the first release the user runs code execution through the engine included in
 = Basic Concepts =
 VisualAp is based on two main concepts: system and components.
 
-A component is the basic element providing some services. A system is build using a number of components that are configured and connected together in order to achieve a complex functionality.
+A [component] is the basic element providing some services. A system is build using a number of components that are configured and connected together in order to achieve a complex functionality.
 
 In VisualAp a system is a graph whose nodes are the components.
 
