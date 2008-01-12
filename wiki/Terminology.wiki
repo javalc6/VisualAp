@@ -1,0 +1,10 @@
+#summary Terminology
+
+= Terminology =
+
+|| *Term* || *Meaning* ||
+||System|| A set of components that are interconnected and interacting. A system is represented as a graph, without cycles/loops, whose nodes are the components of the system.||
+|| Component || The basic building block of a system, performing some kind of simple processing.||
+|| Sink || A component that consumes data.||
+|| Source || A component that produces data.||
+|| Proclet || A Java component performing data processing in the VisualAp framework.||
