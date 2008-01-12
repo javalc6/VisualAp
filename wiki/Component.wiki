@@ -1,0 +1,42 @@
+#summary Using components
+
+= Components =
+== Introduction ==
+A component (or proclet) is the building block of the VisualAp environment.
+
+A component is shown with its icon plus a number of terminals. 
+
+Terminals are represented by a small blue square. Terminals are also called pins.
+
+Input terminals are placed in the left side of a component, while output terminals are placed in the right side of a component.
+
+== Using components ==
+It is possible to view/modify the configuration of a component by double-click over a component in the workplace panel.
+
+Components can be connected together by first pressing the mouse button over a terminal, then move the mouse pointer over another terminal and then release the mouse button: an edge between the two terminals is created. 
+
+The following rules must be followed when connecting a terminal to another one:
+
+  * it is not possible to connect together two or more terminals
+  * any input terminal must be connected to an output terminal
+  * loops and cycles are not allowed in a system
+
+These errors are detected only when the system is checked (System->Check)
+
+
+It is possible to design and release new components for VisualAp. please read the related developer guide.
+
+<nowiki>New components shall be placed in the <beans> directory under the VisualAp installation directory.</nowiki>
+
+== Demo components ==
+The following components are provided with VisualAp 1.0:
+
+
+  * Viewer: shows the incoming data in a floating window
+  * ReadFile: read a file, contains a property "file" -> a custom editor is used for file property
+  * WriteFile: write a file, supported type: text, audio, image
+  * Mux: generate stereo audio from two mono audio inputs
+  * DeMux: split stereo audio in two mono audio
+  * Inspect: shows the type of the incoming data
+  * Speaker: plays an audio stream
+  * ToneGenerator: generate a simple audio tone, contains properties that are checked against max values, contains a property "type" -> a custom editor is used to select a specific value
