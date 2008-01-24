@@ -17,7 +17,7 @@ Components can be connected together by first pressing the mouse button over a t
 
 The following rules must be followed when connecting a terminal to another one:
 
-  * it is not possible to connect together two or more terminals
+  * it is not possible to connect together two or more output terminals
   * any input terminal must be connected to an output terminal
   * loops and cycles are not allowed in a system
 
