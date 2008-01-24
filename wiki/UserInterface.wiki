@@ -1,6 +1,8 @@
 #summary Description of the User Iterface
 
 = User Interface =
+
+
 == Description ==
 This program creates a graphic window with a menu, a workplace panel and a toolbox panel. When needed, a floating window appears to show properties of the components.
 
@@ -30,6 +32,10 @@ In case you set data that are not allowed by the component, a dialog box will po
 
 
 == Details about available menu ==
+
+http://visualap.sourceforge.net/menu.png
+
+
 === File Menu ===
 New: creates a new system. Accelerator: Ctrl+N
 
