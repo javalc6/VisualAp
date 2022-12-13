@@ -53,14 +53,14 @@ public class ErrorPrinter {
 	public static void dump(Throwable ex, String [] versionInformation) {
 		try {
 			PrintWriter outStream = new PrintWriter(new FileWriter(VisualAp.prefs.get("dataPath", null)+File.separatorChar+"error.log", true));
-			outStream.println("Time: "+new Date().toString());
+			outStream.println("Time: "+ new Date());
 			ex.printStackTrace(outStream);
-			for (int i=0; i < versionInformation.length; i++)	{
-				outStream.println(versionInformation[i]);
-			}
+            for (String s : versionInformation) {
+                outStream.println(s);
+            }
 
 			Properties props = System.getProperties();
-			Iterator keys = props.keySet().iterator();
+			Iterator<Object> keys = props.keySet().iterator();
 			String key;
 			TreeMap properties = new TreeMap();
 			while (keys.hasNext()) {

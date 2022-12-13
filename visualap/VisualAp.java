@@ -158,23 +158,21 @@ public class VisualAp extends JFrame implements DropTargetListener {
 				else fname = defaultFileName;
 
 				if (autorun)
-                    SwingUtilities.invokeLater(new Runnable() {
-                        public void run() {
-							try	{
-								StringBuffer error = new StringBuffer();
-								Engine engine = new Engine(VisualAp.this);
-								engine.runDialog( 
-									new Check(activePanel.nodeL, activePanel.EdgeL).checkSystem(), error);
-		//						engine.join();
-								if (engine.cancel)
-									JOptionPane.showMessageDialog(VisualAp.this, "Run cancelled", "VisualAp", JOptionPane.INFORMATION_MESSAGE, icon);
-								else if (error.length() == 0)
-										System.exit(0); // JOptionPane.showMessageDialog(VisualAp.this, "Run successful", "VisualAp", JOptionPane.INFORMATION_MESSAGE, icon);
-									else JOptionPane.showMessageDialog(VisualAp.this, error,"Error",JOptionPane.ERROR_MESSAGE);
-							} catch (CheckException ex) {
-								JOptionPane.showMessageDialog(VisualAp.this, ex.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
-							}
-						}
+                    SwingUtilities.invokeLater((Runnable) () -> {
+                        try	{
+                            StringBuffer error = new StringBuffer();
+                            Engine engine = new Engine(VisualAp.this);
+                            engine.runDialog(
+                                new Check(activePanel.nodeL, activePanel.EdgeL).checkSystem(), error);
+    //						engine.join();
+                            if (engine.cancel)
+                                JOptionPane.showMessageDialog(VisualAp.this, "Run cancelled", "VisualAp", JOptionPane.INFORMATION_MESSAGE, icon);
+                            else if (error.length() == 0)
+                                    System.exit(0); // JOptionPane.showMessageDialog(VisualAp.this, "Run successful", "VisualAp", JOptionPane.INFORMATION_MESSAGE, icon);
+                                else JOptionPane.showMessageDialog(VisualAp.this, error,"Error",JOptionPane.ERROR_MESSAGE);
+                        } catch (CheckException ex) {
+                            JOptionPane.showMessageDialog(VisualAp.this, ex.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
+                        }
                     });
 			}
 		});
@@ -193,7 +191,7 @@ public class VisualAp extends JFrame implements DropTargetListener {
 	}
 
 	protected void load(String fname) {
-		HashSet<String> updatel = new HashSet<String>();
+		HashSet<String> updatel = new HashSet<>();
 		try	{
 			if (activePanel == null) createFrame(new GPanel(beans, VisualAp.this, new File(fname), updatel));
 			else activePanel.readXML(new File(fname), updatel);
@@ -247,21 +245,21 @@ public class VisualAp extends JFrame implements DropTargetListener {
 		try {
 		  Transferable tr = dtde.getTransferable();
 		  DataFlavor[] flavors = tr.getTransferDataFlavors();
-		  for (int i = 0; i < flavors.length; i++) {
-			if (flavors[i].isFlavorJavaFileListType()) {
-			  dtde.acceptDrop(DnDConstants.ACTION_COPY);
-			  java.util.List list = (java.util.List) tr.getTransferData(flavors[i]);
+            for (DataFlavor flavor : flavors) {
+                if (flavor.isFlavorJavaFileListType()) {
+                    dtde.acceptDrop(DnDConstants.ACTION_COPY);
+                    java.util.List list = (java.util.List) tr.getTransferData(flavor);
 /* for debug purpose
 			  for (int j = 0; j < list.size(); j++)
 				System.out.println(list.get(j) + "\n");
 */
 
 // take only the last filename (in case of multi-drop)
-			  load(list.get(list.size() - 1).toString());
-			  dtde.dropComplete(true);
-			  return;
-			}
-		  }
+                    load(list.get(list.size() - 1).toString());
+                    dtde.dropComplete(true);
+                    return;
+                }
+            }
 		  dtde.rejectDrop();
 		} catch (Exception ex) {
 			dtde.rejectDrop();
@@ -319,7 +317,7 @@ private class InsertBean implements callback {
 
 			Cursor savedCursor = getCursor();
 			setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-			HashSet<String> downloadfiles = new HashSet<String>();
+			HashSet<String> downloadfiles = new HashSet<>();
 			WebFetch fetch = new WebFetch();
 			String datapath = prefs.get("dataPath", null); 
 			try {
@@ -400,7 +398,7 @@ private class InsertBean implements callback {
 		menuBar.add(buildToolsMenu());
 		menuBar.add(buildHelpMenu());
 
-	// editMenu è un menu variabile, quindi gestito dinamicamente via listener
+	// editMenu ï¿½ un menu variabile, quindi gestito dinamicamente via listener
 		editMenu.addMenuListener(new MenuListener() {
 			public void menuCanceled(MenuEvent e) {
 			}
@@ -458,7 +456,7 @@ private class InsertBean implements callback {
 					wait_thread_fc();
 				int returnVal = fc.showOpenDialog(VisualAp.this);
                 if (returnVal == JFileChooser.APPROVE_OPTION) {
-					HashSet<String> updatel = new HashSet<String>();
+					HashSet<String> updatel = new HashSet<>();
 					try	{ 	
 						File file = fc.getSelectedFile();
 						if (activePanel == null) createFrame(new GPanel(beans, VisualAp.this, file, updatel));
@@ -600,33 +598,31 @@ private class InsertBean implements callback {
 		   }});
 		run.addActionListener(new ActionListener() {
 		   public void actionPerformed(ActionEvent e) {
-				SwingUtilities.invokeLater(new Runnable() {
-					public void run() {
-						Check chksys = new Check(activePanel.nodeL, activePanel.EdgeL); 
-						try	{
-							StringBuffer error = new StringBuffer();
-							Engine engine = new Engine(VisualAp.this);
-							engine.runDialog(chksys.checkSystem(), error);
-							engine.join();
-							if (engine.cancel)
-								JOptionPane.showMessageDialog(VisualAp.this, "Run cancelled", "VisualAp", JOptionPane.INFORMATION_MESSAGE, icon);
-							else if (error.length() == 0)
-									JOptionPane.showMessageDialog(VisualAp.this, "Run successful", "VisualAp", JOptionPane.INFORMATION_MESSAGE, icon);
-								else JOptionPane.showMessageDialog(VisualAp.this, error,"Error",JOptionPane.ERROR_MESSAGE);
-						} catch (CheckException ex) {
+				SwingUtilities.invokeLater((Runnable) () -> {
+                    Check chksys = new Check(activePanel.nodeL, activePanel.EdgeL);
+                    try	{
+                        StringBuffer error = new StringBuffer();
+                        Engine engine = new Engine(VisualAp.this);
+                        engine.runDialog(chksys.checkSystem(), error);
+                        engine.join();
+                        if (engine.cancel)
+                            JOptionPane.showMessageDialog(VisualAp.this, "Run cancelled", "VisualAp", JOptionPane.INFORMATION_MESSAGE, icon);
+                        else if (error.length() == 0)
+                                JOptionPane.showMessageDialog(VisualAp.this, "Run successful", "VisualAp", JOptionPane.INFORMATION_MESSAGE, icon);
+                            else JOptionPane.showMessageDialog(VisualAp.this, error,"Error",JOptionPane.ERROR_MESSAGE);
+                    } catch (CheckException ex) {
 //							JOptionPane.showMessageDialog(VisualAp.this, ex.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
-							if (showErrorDialog(ex.getMessage()))
-								hWindow.setPage(VisualAp.class.getResource("helpfile5a.html"));
-							if (chksys.getErrorList() != null)	{
-								activePanel.clear_selection();
-								activePanel.selection.addAll(chksys.getErrorList());
-								activePanel.repaint();
-							}
-						} catch (InterruptedException  ex) {
-							JOptionPane.showMessageDialog(VisualAp.this, ex.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
-						}
-					}
-				});
+                        if (showErrorDialog(ex.getMessage()))
+                            hWindow.setPage(VisualAp.class.getResource("helpfile5a.html"));
+                        if (chksys.getErrorList() != null)	{
+                            activePanel.clear_selection();
+                            activePanel.selection.addAll(chksys.getErrorList());
+                            activePanel.repaint();
+                        }
+                    } catch (InterruptedException  ex) {
+                        JOptionPane.showMessageDialog(VisualAp.this, ex.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
+                    }
+                });
 		   }});
 		editprops.addActionListener(new ActionListener() {
 		   public void actionPerformed(ActionEvent e) {
@@ -812,7 +808,7 @@ private class InsertBean implements callback {
 		menuItem.addActionListener(new ActionListener() {
 		   public void actionPerformed(ActionEvent e) {
 			   if (activePanel.selection.size() > 0) {
-// il problema java.util.ConcurrentModificationException è stato risolto introducendo la lista garbage
+// il problema java.util.ConcurrentModificationException ï¿½ stato risolto introducendo la lista garbage
 					HashSet<Edge> garbage = new HashSet<Edge>();
 					for (Node t : activePanel.selection) {
 						for (Edge c : activePanel.EdgeL)
@@ -834,7 +830,7 @@ private class InsertBean implements callback {
 		menuItem.addActionListener(new ActionListener() {
 		   public void actionPerformed(ActionEvent e) {
 			   if (activePanel.selection.size() > 0) {
-// il problema java.util.ConcurrentModificationException è stato risolto introducendo la lista garbage
+// il problema java.util.ConcurrentModificationException ï¿½ stato risolto introducendo la lista garbage
 					HashSet<Edge> garbage = new HashSet<Edge>();
 					for (Node t : activePanel.selection) {
 						for (Edge c : activePanel.EdgeL)
@@ -934,29 +930,29 @@ private class InsertBean implements callback {
 		File [] af = currentdir.listFiles();
 		int nf = 0;
 		if (af == null)
-		{	System.out.println("No file to process in "+currentdir.toString());
+		{	System.out.println("No file to process in "+ currentdir);
 			return;
 		}
-		for (int i = 0; i < af.length; i++) {
-			String fname = af[i].getPath();
-			if (!af[i].isDirectory())
-				if (checkExt(fname, "vas")) {  
-					nf += 1;
-					System.out.println("Processing file "+ fname);
-					try	{
-						HashSet<String> updatel = new HashSet<String>();
-						File file = new File(fname);
-						activePanel.readXML(file, updatel);	
-						activePanel.writeXML(file);
-					}	catch (VersionException ex)	{
-						System.err.println(ex.toString());
-					}	catch (IOException ex)	{
-						System.err.println(ex.toString());
-					}
-					
+        for (File value : af) {
+            String fname = value.getPath();
+            if (!value.isDirectory())
+                if (checkExt(fname, "vas")) {
+                    nf += 1;
+                    System.out.println("Processing file " + fname);
+                    try {
+                        HashSet<String> updatel = new HashSet<>();
+                        File file = new File(fname);
+                        activePanel.readXML(file, updatel);
+                        activePanel.writeXML(file);
+                    } catch (VersionException ex) {
+                        System.err.println(ex);
+                    } catch (IOException ex) {
+                        System.err.println(ex);
+                    }
 
-				}
-		}
+
+                }
+        }
 		System.out.print("Processed "+nf+" files");
 	}
 
@@ -1010,8 +1006,7 @@ private class InsertBean implements callback {
 		String [] result = cli.parse(args);
 		if (cli.hasOption(uniqueID)) {
 			String [] hc = getUniqueID();
-			for (int i = 0; i < hc.length; i++)
-				System.out.println(hc[i]);
+            for (String s : hc) System.out.println(s);
 			System.exit(0);
 		}
 		if (cli.hasOption(report)) {

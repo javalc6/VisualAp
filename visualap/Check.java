@@ -120,32 +120,32 @@ the method checkSystem() perform analysis of the graph, checking if it conforms 
 				}
 			}			
 		}
-		for (int i = 0; i < vertexL.length; i++) {
-			if (vertexL[i] != null)
-				for (int j = 0; j < vertexL[i].aNode.inPins.length; j++) {
-					int mark = vertexL[i].aNode.inPins[j].getMark();
-					if (mark != 0) {
-						vertexL[i].backward[j] = pOut[mark];
-					} else {
-						errorList.add(vertexL[i].aNode);
-						throw new CheckException("Detected a floating input pin\nPlease check "+vertexL[i].aNode.getLabel());
-					}
-				}			
-		}
+        for (Vertex element : vertexL) {
+            if (element != null)
+                for (int j = 0; j < element.aNode.inPins.length; j++) {
+                    int mark = element.aNode.inPins[j].getMark();
+                    if (mark != 0) {
+                        element.backward[j] = pOut[mark];
+                    } else {
+                        errorList.add(element.aNode);
+                        throw new CheckException("Detected a floating input pin\nPlease check " + element.aNode.getLabel());
+                    }
+                }
+        }
 // compress list of vertex
 		int counter = 0;
-		for (int i = 0; i < vertexL.length; i++) {
-			if (vertexL[i] != null) counter++;
-		}
+        for (Vertex item : vertexL) {
+            if (item != null) counter++;
+        }
 		if (counter == 0) return null;
 		Vertex [] vertex = new Vertex [counter];
 		int j = 0;
-		for (int i = 0; i < vertexL.length; i++) {
-			if (vertexL[i] != null) {
-				vertex[j] = vertexL[i];
-				j++;
-			}
-		}
+        for (Vertex value : vertexL) {
+            if (value != null) {
+                vertex[j] = value;
+                j++;
+            }
+        }
 		if (nout != nextMark - lostMark - 1)
 			throw new CheckException("Detected input pins not connected to any output pin");
 		return vertex;
@@ -162,12 +162,12 @@ the method checkSystem() perform analysis of the graph, checking if it conforms 
 	private Vertex [] sortSystem(Vertex [] vertexL) throws CheckException {
 		if (vertexL == null) return null;
 // first check for self-loop
-		for (int i = 0; i < vertexL.length; i++) {
-			if (copre(vertexL[i],vertexL[i])) {
-				errorList.add(vertexL[i].aNode);
-				throw new CheckException("Detected a loop\nPlease check "+vertexL[i].aNode.getLabel());
-			}
-		}
+        for (Vertex vertex : vertexL) {
+            if (copre(vertex, vertex)) {
+                errorList.add(vertex.aNode);
+                throw new CheckException("Detected a loop\nPlease check " + vertex.aNode.getLabel());
+            }
+        }
 		int first = 0;
 		int last = vertexL.length - 1;
 // check for any cycles

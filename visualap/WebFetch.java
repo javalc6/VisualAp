@@ -32,7 +32,7 @@ public class WebFetch {
 		connection.setRequestProperty("User-Agent",VisualAp.getAppName()+" "+Setup.version+"("+os+")");
 		int responseCode = connection.getResponseCode();
 		if (responseCode != HttpURLConnection.HTTP_OK) {
-			throw new IOException("HTTP response code: " + String.valueOf(responseCode));
+			throw new IOException("HTTP response code: " + responseCode);
 		}
 		BufferedReader inStream = new BufferedReader(new InputStreamReader(connection.getInputStream()));
 		String line;
@@ -54,7 +54,7 @@ public class WebFetch {
 		connection.setRequestProperty("User-Agent",VisualAp.getAppName()+" "+Setup.version+"("+os+")");
 		int responseCode = connection.getResponseCode();
 		if (responseCode != HttpURLConnection.HTTP_OK) {
-			throw new IOException("HTTP response code: " + String.valueOf(responseCode));
+			throw new IOException("HTTP response code: " + responseCode);
 		}
 		InputStream inStream = new DataInputStream(connection.getInputStream());
 		OutputStream outStream = new FileOutputStream(outFile);

@@ -52,7 +52,7 @@ public class Engine extends Thread {
 			} catch (InvocationTargetException ex) {
 				Throwable ex2 = ex.getCause(); // get the effective exception that caused InvocationTargetException
 				System.err.println("Engine.run: "+ex2.toString());
-				error.append(ex2.toString()+" in "+vertexL[i].aNode.getLabel());
+				error.append(ex2).append(" in ").append(vertexL[i].aNode.getLabel());
 				for (int j = 0; j < i; j++) 
 					vertexL[j].stop();
 				waiting.setVisible(false);
@@ -62,64 +62,64 @@ public class Engine extends Thread {
 		
 // check if we have to run iterations, i.e. there is at least an object with iterate() method
 		int iterations = 0;
-		for (int i = 0; i < vertexL.length; i++) {
-			if (vertexL[i].iterative && vertexL[i].isSource) {
-				iterations++;
-			}
-		}
+        for (Vertex value : vertexL) {
+            if (value.iterative && value.isSource) {
+                iterations++;
+            }
+        }
 		boolean running = true;
 		while (running && !isInterrupted()) {
 			int stoppedIterations = 0;
-			for (int i = 0; i < vertexL.length; i++) {
-				for (int j = 0; j < vertexL[i].backward.length; j++)
-					vertexL[i].iobuf_in[j] = vertexL[i].backward[j].obj
-							.iobuf_out[vertexL[i].backward[j].index];
+            for (Vertex vertex : vertexL) {
+                for (int j = 0; j < vertex.backward.length; j++)
+                    vertex.iobuf_in[j] = vertex.backward[j].obj
+                            .iobuf_out[vertex.backward[j].index];
 
-				int nout = 0;
-				for (int j = 0; j < vertexL[i].methoda.length; j++) {
-					java.lang.reflect.Method m = vertexL[i].methoda[j];
-					try {
-						if (m.getReturnType() != Void.TYPE) {
-							vertexL[i].iobuf_out[nout]=m.invoke(vertexL[i].obj, vertexL[i].iobuf_in); 
-							nout++;
-						}  else m.invoke(vertexL[i].obj, vertexL[i].iobuf_in);
-					} catch (IllegalAccessException ex) {
-						System.err.println("Engine.run: IllegalAccessException "+ex.getMessage());
-						running = false;
-						error.append("\nIllegalAccessException in "+vertexL[i].aNode.getLabel());
-					} catch (InvocationTargetException ex) {
-						Throwable ex2 = ex.getCause(); // get the effective exception that caused InvocationTargetException
+                int nout = 0;
+                for (int j = 0; j < vertex.methoda.length; j++) {
+                    Method m = vertex.methoda[j];
+                    try {
+                        if (m.getReturnType() != Void.TYPE) {
+                            vertex.iobuf_out[nout] = m.invoke(vertex.obj, vertex.iobuf_in);
+                            nout++;
+                        } else m.invoke(vertex.obj, vertex.iobuf_in);
+                    } catch (IllegalAccessException ex) {
+                        System.err.println("Engine.run: IllegalAccessException " + ex.getMessage());
+                        running = false;
+                        error.append("\nIllegalAccessException in " + vertex.aNode.getLabel());
+                    } catch (InvocationTargetException ex) {
+                        Throwable ex2 = ex.getCause(); // get the effective exception that caused InvocationTargetException
 //						System.err.println("Engine.run: "+ex2.toString());
-						ErrorPrinter.printInfo(ex2.toString());
-						ErrorPrinter.dump(ex2, VisualAp.getUniqueID());
-						running = false;
-						error.append("\n"+ex2.toString()+" in "+vertexL[i].aNode.getLabel());
-					} catch (Exception ex) {
+                        ErrorPrinter.printInfo(ex2.toString());
+                        ErrorPrinter.dump(ex2, VisualAp.getUniqueID());
+                        running = false;
+                        error.append("\n" + ex2 + " in " + vertex.aNode.getLabel());
+                    } catch (Exception ex) {
 //						System.err.println("Engine.run: Exception "+ex.getMessage());
-						System.err.println("Engine.run: "+ex.toString());
-						running = false;
-						error.append("\nException ("+ex.getMessage()+") in "+vertexL[i].aNode.getLabel());
-					}
-				}
-				if (iterations > 0) {
-					try {
-						if (!vertexL[i].iterate()) stoppedIterations++; 
-					} catch (InvocationTargetException ex) {
-						Throwable ex2 = ex.getCause(); // get the effective exception that caused InvocationTargetException
+                        System.err.println("Engine.run: " + ex);
+                        running = false;
+                        error.append("\nException (" + ex.getMessage() + ") in " + vertex.aNode.getLabel());
+                    }
+                }
+                if (iterations > 0) {
+                    try {
+                        if (!vertex.iterate()) stoppedIterations++;
+                    } catch (InvocationTargetException ex) {
+                        Throwable ex2 = ex.getCause(); // get the effective exception that caused InvocationTargetException
 //						System.err.println("Engine.run: "+ex2.toString());
-						ErrorPrinter.printInfo(ex2.toString());
-						ErrorPrinter.dump(ex2, VisualAp.getUniqueID());
-						error.append("\n"+ex2.toString()+" in "+vertexL[i].aNode.getLabel());
-						running = false;
-					}
-					if (iterations == stoppedIterations) running = false; // stop iteration
-				} else running = false;
-			}
+                        ErrorPrinter.printInfo(ex2.toString());
+                        ErrorPrinter.dump(ex2, VisualAp.getUniqueID());
+                        error.append("\n" + ex2 + " in " + vertex.aNode.getLabel());
+                        running = false;
+                    }
+                    if (iterations == stoppedIterations) running = false; // stop iteration
+                } else running = false;
+            }
 		}
 // now stop running, notify all objects supporting method stop()
-		for (int i = 0; i < vertexL.length; i++) {
-			vertexL[i].stop();
-		}
+        for (Vertex vertex : vertexL) {
+            vertex.stop();
+        }
 		waiting.setVisible(false);
 	}
 

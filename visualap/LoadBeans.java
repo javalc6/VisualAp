@@ -22,7 +22,6 @@ javalc6
 */
 
 package visualap;
-import java.awt.*;
 import java.awt.event.*;
 import javax.swing.JPanel;
 import java.io.*;
@@ -108,17 +107,13 @@ class LoadBeans extends ArrayList<BeanDelegate> {
 			ErrorPrinter.printInfo(jars+" is not a directory!!");
 		}
 
-		ArrayList<String> result = new ArrayList<String>();
+		ArrayList<String> result = new ArrayList<>();
 		String names[];
-		names = jars.list(new FilenameFilter() {
-			public boolean accept(File f, String name) {
-				return name.toLowerCase().endsWith(".jar");
-			}
-		});
+		names = jars.list((f, name) -> name.toLowerCase().endsWith(".jar"));
 		if (names != null)
-			for (int i=0; i<names.length; i++) {
-				result.add(jars.getPath() + File.separatorChar + names[i]);
-			}
+            for (String name : names) {
+                result.add(jars.getPath() + File.separatorChar + name);
+            }
 
 		return result;
     }
@@ -127,7 +122,7 @@ class LoadBeans extends ArrayList<BeanDelegate> {
 	public ArrayList<String> getBeansName(String filename) throws IOException {
         JarFile jarfile;
         Manifest mf;
-		ArrayList<String> result = new ArrayList<String>();
+		ArrayList<String> result = new ArrayList<>();
 
 		jarfile = new JarFile(filename);
 		mf = jarfile.getManifest();
@@ -150,24 +145,21 @@ class LoadBeans extends ArrayList<BeanDelegate> {
             }
         }
 
-        Iterator iterator = mf.getEntries().keySet().iterator();
-        while (iterator.hasNext()) {
-            String beanName = (String)iterator.next();
-
+        for (String beanName : mf.getEntries().keySet()) {
             attribs = mf.getAttributes(beanName);
 
-            if (attribs != null)  {
+            if (attribs != null) {
                 String isJavaBean = attribs.getValue(new Attributes.Name("Java-Bean"));
 
-				if (isJavaBean != null && isJavaBean.equalsIgnoreCase("True"))  {
-					if (beanName.endsWith(".class"))  {
-						beanName = beanName.substring(0, beanName.length() - 6);
-					} else if (beanName.endsWith(".ser")) {
-						// Must deserialize the class.
-						beanName = beanName.substring(0, beanName.length() - 4);
-					}
-					result.add(beanName.replace('/', '.'));
-				}
+                if (isJavaBean != null && isJavaBean.equalsIgnoreCase("True")) {
+                    if (beanName.endsWith(".class")) {
+                        beanName = beanName.substring(0, beanName.length() - 6);
+                    } else if (beanName.endsWith(".ser")) {
+                        // Must deserialize the class.
+                        beanName = beanName.substring(0, beanName.length() - 4);
+                    }
+                    result.add(beanName.replace('/', '.'));
+                }
             }
         }
 		return result;

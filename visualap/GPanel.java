@@ -48,7 +48,7 @@ class GPanel extends JPanel implements Printable, MouseListener, MouseMotionList
 	Edges EdgeL = new Edges();
 	Point mouse;
 
-	HashMap<String, Object> globalVars = new HashMap<String, Object>();
+	HashMap<String, Object> globalVars = new HashMap<>();
 
 	boolean cursor=true; // cursor is under control?
 	Rectangle rect;
@@ -217,7 +217,7 @@ class GPanel extends JPanel implements Printable, MouseListener, MouseMotionList
 	}
 
 	public void writeXML(File file) throws IOException {
-		Header header = new Header("VisualAp", "Created on "+new Date().toString(), "1.0");
+		Header header = new Header("VisualAp", "Created on "+ new Date(), "1.0");
 		nodeL.setChanged(false); // note: this statement must be performed before encoder.writeObject(nodeL);
 		java.beans.XMLEncoder encoder = new java.beans.XMLEncoder(new BufferedOutputStream(new FileOutputStream(file)));
 		encoder.writeObject(header);
@@ -225,7 +225,7 @@ class GPanel extends JPanel implements Printable, MouseListener, MouseMotionList
 		encoder.writeObject(nodeL);
 //		encoder.setPersistenceDelegate(Edge.class, new DefaultPersistenceDelegate(new String[]{"from", "to"}));
 //		encoder.writeObject(EdgeL);
-		ArrayList<String> al = new ArrayList<String>();
+		ArrayList<String> al = new ArrayList<>();
 		for (Edge t : EdgeL)
 			al.add(t.toString());
 		encoder.writeObject(al.toArray());
@@ -306,7 +306,7 @@ class GPanel extends JPanel implements Printable, MouseListener, MouseMotionList
 // generato nell'istante in cui il mouse viene premuto
 		int x = e.getX();
 		int y = e.getY();
-// qui è obbligatorio un iteratore che scandisce la lista al contrario!
+// qui ï¿½ obbligatorio un iteratore che scandisce la lista al contrario!
 		for (ListIterator<Node> it = nodeL.listIterator(nodeL.size()); it.hasPrevious(); ) {
 			Node aNode = it.previous();
 			Object sel = aNode.contains(x,y);
@@ -458,7 +458,7 @@ class GPanel extends JPanel implements Printable, MouseListener, MouseMotionList
 
 		//Make the width and height positive, if necessary.
 		if (width < 0) {
-			width = 0 - width;
+			width = -width;
 			x = x - width + 1; 
 			if (x < 0) {
 				width += x; 
@@ -466,7 +466,7 @@ class GPanel extends JPanel implements Printable, MouseListener, MouseMotionList
 			}
 		}
 		if (height < 0) {
-			height = 0 - height;
+			height = -height;
 			y = y - height + 1; 
 			if (y < 0) {
 				height += y; 

@@ -98,8 +98,7 @@ public class Vertex {
 				try {
 					return iterate.invoke(obj,new Object[0]).equals(true);
 				} catch (IllegalAccessException ex) { } // ignore
-		else if (isSource)
-				return false;
+		else return !isSource;
 		return true;
 	}
 // stop() used only for running of graph

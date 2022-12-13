@@ -103,7 +103,7 @@ public class Setup {
 		try	{
 			JarFile f = new JarFile(jarname);			
 			String dataPath = prefs.get("dataPath", null); 
-			Enumeration entries = f.entries();
+			Enumeration<JarEntry> entries = f.entries();
 			while(entries.hasMoreElements()) {
 				JarEntry entry = (JarEntry) entries.nextElement();
 				String entryname = entry.getName();
@@ -111,7 +111,7 @@ public class Setup {
 					new File(entryname).mkdirs();
 				} else if (entryname.startsWith("beans/")) {
 					extractFromJAR(f, entry, dataPath);
-				} else if ((entryname.indexOf("/") == -1) && checkExt(entryname, "vas|jpg|png|gif|wav|mp3")) {
+				} else if ((!entryname.contains("/")) && checkExt(entryname, "vas|jpg|png|gif|wav|mp3")) {
 					extractFromJAR(f, entry, dataPath);
 				} else {
 					extractFromJAR(f, entry, "."); // extracts other files in the current path
@@ -120,11 +120,11 @@ public class Setup {
 			}
 //			f.close();
 		} catch (FileNotFoundException ex) {
-			System.err.println("Installation failed, exception: "+ex.toString());
+			System.err.println("Installation failed, exception: "+ ex);
 			System.err.println("Make sure that files can be created in the current directory, check write permission.");
 			System.exit(0);
 		} catch (IOException ex) {
-			System.err.println("Installation failed, exception: "+ex.toString());
+			System.err.println("Installation failed, exception: "+ ex);
 			System.err.println("Problem occured reading "+jarname);
 			System.exit(0);
 		}
