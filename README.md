@@ -4,6 +4,8 @@ VisualAp is a visual framework for building application and systems based on vis
 VisualAp can be used in order to perform audio processing, image processing, text and other process-driven emulation. VisualAp provides a visual framework based on lightweight components, called proclet.
 The user can create an application by selecting the components from a toolbox, configuring the parameters (via the Javabeans framework), and connecting the components together in order to set-up communication channels between the components. Please [click here](wiki/VisualAp.wiki) for more information.
 
+This application has to be compiled and run with Java 8, later versions are currently not supported.
+
 # Build
 The batch file build.bat can be used to build the project. It generates the classes and two jar files: visualap-setup.jar and visualap.jar
 # Install
@@ -19,7 +21,7 @@ java -jar visualap.jar
 ```
 or
 ```
-java visualap.Visualap
+java visualap.VisualAp
 ```
 # User Interface
 
