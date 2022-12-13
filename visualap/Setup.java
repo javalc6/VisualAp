@@ -27,7 +27,7 @@ import java.util.jar.*;
 
 public class Setup {
 	static Preferences prefs = Preferences.userNodeForPackage(Setup.class);
-	static final String version = "1.2.1";
+	static final String version = "1.2.2";
 
 	static boolean checkExt(String s, String ext) {
 		int i = s.lastIndexOf('.');
