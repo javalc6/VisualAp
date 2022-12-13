@@ -19,7 +19,7 @@ java -jar visualap.jar
 ```
 or
 ```
-java visualap.Visualap
+java visualap.VisualAp
 ```
 # User Interface
 
