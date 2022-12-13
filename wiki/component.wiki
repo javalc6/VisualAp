@@ -1,6 +1,4 @@
-#summary Using components
-
-= Components =
+= Using VisualAP components =
 == Introduction ==
 A [component] (or proclet) is the building block of the VisualAp environment.
 
