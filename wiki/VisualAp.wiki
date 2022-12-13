@@ -1,5 +1,4 @@
-#summary Introduction to VisualAp
-= Introduction =
+= Introduction to VisualAp =
 VisualAp is a visual framework for building application and systems based on visual components. Users can add their own visual components in order to extend the capability of VisualAp.
 
 
