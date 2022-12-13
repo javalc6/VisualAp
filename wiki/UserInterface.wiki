@@ -1,7 +1,4 @@
-#summary Description of the User Iterface
-
-= User Interface =
-
+= Description of the User Iterface =
 
 == Description ==
 This program creates a graphic window with a menu, a workplace panel and a toolbox panel. When needed, a floating window appears to show properties of the components.
