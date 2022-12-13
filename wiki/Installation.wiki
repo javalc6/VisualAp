@@ -1,7 +1,4 @@
-#summary Installation and start of VisualAp
-
-
-= Installation and start of visualap =
+= Installation and start of VisualAp =
 Note: VisualAp requires either JRE or JDK, version 1.5 or later. Please download it before installing VisualAp. Further details are available here: [http://java.com/en/download/index.jsp Free Java Download]
 
 == Basic users (Windows 2000 or Windows XP required) ==
