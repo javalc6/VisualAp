@@ -1,6 +1,4 @@
-#summary Tutorial for VisualAp
-
-= Tutorial =
+= Short tutorial for VisualAp =
 The scope of this paragraph is learn how to build a simple system, step by step:
 
 
