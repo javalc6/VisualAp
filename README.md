@@ -2,7 +2,7 @@
 VisualAp is a visual framework for building application and systems based on visual components.
 # Overview
 VisualAp can be used in order to perform audio processing, image processing, text and other process-driven emulation. VisualAp provides a visual framework based on lightweight components, called proclet.
-The user can create an application by selecting the components from a toolbox, configuring the parameters (via the Javabeans framework), and connecting the components together in order to set-up communication channels between the components. Please [click here](wiki/VisualAp.wiki) for more information.
+The user can create an application by selecting the components from a toolbox, configuring the parameters (via the Javabeans framework), and connecting the components together in order to set-up communication channels between the components. Please [click here](wiki/VisualAp.wiki) and read the [user guide](doc/userguide.pdf) for more information. 
 
 This application has to be compiled and run with Java 8, later versions are currently not supported.
 
@@ -45,3 +45,5 @@ The user interface is described in more details [here](wiki/UserInterface.wiki).
 * Eventually you can run the system: System->Run, a new window pops-up with the inverted image.
 * Double-click the ImageFilter component in the workspace: the properties window for ImageFilter appears. You can change the effect to 5x5Edge.
 * Run the system, again System->Run, the image will change due to the new filter.
+
+Additional information are available in the [developer guide](doc/developerguide.pdf).
