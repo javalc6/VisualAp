@@ -2,6 +2,7 @@
 Version 1.0, 30-12-2007, First release
 Version 1.1, 03-02-2008, added <version> field in components, added sorting of jars
 Version 1.2, 06-01-2010, fixed minor compilation warnings with JDK 1.6, beans are now stored in sub-directory visualap of user home
+Version 1.3, 29-11-2025, ClassPathHacker replaced by DynamicJarLoader for compatibility with java 9 and later releases
 
 IMPORTANT NOTICE, please read:
 
@@ -38,49 +39,46 @@ class LoadBeans extends ArrayList<BeanDelegate> {
     public LoadBeans load(String beansDir) {
 		ArrayList<String> jarNames = getJarNames(beansDir);	
 		Collections.sort(jarNames);
-		for (int i = 0; i < jarNames.size(); i++) {
-			String name = jarNames.get(i);
-			try {
-					addBeansInJar(name);
-			} catch (Exception ex) {
-				ErrorPrinter.printInfo(name + ": jar load failed");
-				ErrorPrinter.dump(ex, VisualAp.getUniqueID());
+		String name = null;
+		try {
+			ClassLoader classLoader = DynamicJarLoader.createLoaderForJars(jarNames);
+			
+			for (int i = 0; i < jarNames.size(); i++) {
+				name = jarNames.get(i);
+				ArrayList<String> beanNames = getBeansName(name);
+				if (beanNames.size() != 0)	{	
+					for (int k = 0; k < beanNames.size(); k++)	{
+						String beanName = beanNames.get(k);
+						try {
+							boolean ignore = false;
+							int remove_j = -1;
+							BeanDelegate bd = new BeanDelegate(beanName, classLoader);
+							for (int j = 0; j < this.size(); j++)
+								if (get(j).name.equals(beanName)) {
+									System.out.println(beanName+" duplicate detected");
+									if (checkVersion(bd.version, get(j).version))
+										ignore = true;
+									else remove_j = j;
+								}
+							if (remove_j != -1)
+								remove(remove_j);
+							if (!ignore)
+								add(bd);
+						}
+						catch (BeanException ex) {
+		// this exception can be ignored
+							ErrorPrinter.printInfo(beanName+" caused BeanException in " + name + " : "+ex.getMessage());
+						}
+					}
+				}
 			}
+		} catch (Exception ex) {
+			ErrorPrinter.printInfo(name == null ? "DynamicJarLoader failure" : name + ": jar load failed");
+			ErrorPrinter.dump(ex, VisualAp.getUniqueID());
 		}
 		return this;
 	}
 
-	synchronized void addBeansInJar(String jarFile) throws IOException {
-		ClassPathHacker.addFile(jarFile); // workaround to avoid the ClassNotFoundException when using XMLEncoder and XMLDecoder
-		URLClassLoader classLoader;
-		classLoader = new URLClassLoader(new URL[]{new File(jarFile).toURI().toURL()});
-		ArrayList<String> beanNames = getBeansName(jarFile);
-		if (beanNames.size() != 0)	{	
-			for (int i=0; i <beanNames.size(); i++)	{
-				String beanName = beanNames.get(i);
-				try {
-					boolean ignore = false;
-					int remove_j = -1;
-					BeanDelegate bd = new BeanDelegate(beanName, classLoader);
-					for (int j=0; j <this.size(); j++)
-						if (get(j).name.equals(beanName)) {
-							System.out.println(beanName+" duplicate detected");
-							if (checkVersion(bd.version, get(j).version))
-								ignore = true;
-							else remove_j = j;
-						}
-					if (remove_j != -1)
-						remove(remove_j);
-					if (!ignore)
-						add(bd);
-				}
-				catch (BeanException ex) {
-// this exception can be ignored
-					ErrorPrinter.printInfo(beanName+" caused BeanException in " + jarFile + " : "+ex.getMessage());
-				}
-			}
-		}
-    }
 
 // checkVersion returns true only if ver2 is greater than ver
     public boolean checkVersion(String ver, String ver2) {

@@ -35,14 +35,14 @@ public class BeanDelegate {
 	protected Class<?> clazz;
 	protected Image icon;
 	protected URL helpfile;
-	protected URLClassLoader classLoader;
+	protected ClassLoader classLoader;
 	protected String toolTipText;
 	protected long serialUID;
 	protected String version;
 	protected Class<?>[] input; // type of input
 	protected Class<?>[] output = new Class<?>[0]; // type of output
 
-	public BeanDelegate(String _name, URLClassLoader cl) throws BeanException {
+	public BeanDelegate(String _name, ClassLoader cl) throws BeanException {
 		name = _name;
 		classLoader = cl;
 		try {
