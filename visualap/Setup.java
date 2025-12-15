@@ -1,5 +1,6 @@
 /*
 Version 1.0, 12-03-2011, Setup program for initial installation
+Version 1.2.2, 15-12-2025, Updated to version 1.2.2
 
 IMPORTANT NOTICE, please read:
 
@@ -12,8 +13,6 @@ for use in mission critical, life support and military purposes.
 The use of this software is at the risk of the user.
 
 Usage: java -jar visualap.setup.jar
-
-Note: Java 1.6 or greater is required
 
 javalc6
 
@@ -95,9 +94,7 @@ public class Setup {
 			System.exit(0);
 		}
 		String datapath = getDataPath();
-		if (!prefs.get("version", "1.1").equals(version)) // default version "1.1" is used for obsolete version, it includes also 1.0 version
-			System.out.print("Re-installation in progress...");
-		else System.out.print("Upgrade in progress...");
+		System.out.print("Upgrade in progress...");
 
 // copy files in home directory (beans, vas, images and sounds)
 		try	{

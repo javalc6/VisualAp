@@ -6,7 +6,7 @@ Version 1.2, 06-01-2010, fixed minor compilation warnings with JDK 1.6, removed 
 new cursor when selecting a component from the toolbox, arrow drawing towards input pins, Properties replaced by Preferences,
 data files stored in sub-directory visualap of user home (windows vista and windows 7 compatibility)
 Version 1.2.1, 13-03-2010, modified handling of properties, replaced obsolete com.sun.image.codec.jpeg package and added support for gif and png images, dnd support, enhanced setup
-
+Version 1.2.2, 15-12-2025, Update to use github endpoint
 
 IMPORTANT NOTICE, please read:
 
@@ -38,8 +38,6 @@ Usage: java visualap.VisualAp  [-fast] [-run] [-report] [-uniqueID] [-help] <fil
 -uniqueID   print uniqueID
 -help       this help
 
-Note: Java 1.6 or greater is required to run VisualAp
-
 VisualAp is based on the use of javabeans conforming to the readme.txt recommendations
 
 javalc6
@@ -70,9 +68,11 @@ public class VisualAp extends JFrame implements DropTargetListener {
 
 
 	static final String WindowTitle = VisualAp.getAppName();
-	static final String ABOUTMSG = WindowTitle+"\nVersion "+Setup.version+"\n13-03-2011\njavalc6";
+	static final String ABOUTMSG = WindowTitle+"\nVersion "+Setup.version+"\n15-12-2025\njavalc6";
 	static final String defaultFileName = "noname.vas";
-	static final String hostingWebServer = "http://visualap.sourceforge.net/";
+	static final String hostingWebServer = "https://visualap.sourceforge.net/";//DEPRECATED! TODO: implement new component management
+	static final String releasePage = "https://github.com/javalc6/VisualAp/releases";
+	static final String releaseEndPoint = "https://api.github.com/repos/javalc6/visualap/releases/latest";
 	static GPanel activePanel;
 	static String fname=defaultFileName;
 	static ImageIcon largeicon = new ImageIcon(VisualAp.class.getResource("logo64.png"));
@@ -398,7 +398,7 @@ private class InsertBean implements callback {
 		menuBar.add(buildToolsMenu());
 		menuBar.add(buildHelpMenu());
 
-	// editMenu � un menu variabile, quindi gestito dinamicamente via listener
+	// editMenu è un menu variabile, quindi gestito dinamicamente via listener
 		editMenu.addMenuListener(new MenuListener() {
 			public void menuCanceled(MenuEvent e) {
 			}
@@ -667,13 +667,12 @@ private class InsertBean implements callback {
 			public void actionPerformed(ActionEvent e) {
 				WebFetch fetch = new WebFetch();
 				try {
-					String str = fetch.fetchURL(hostingWebServer+"download.php?filename=visualap.html","<span id=version>");
+					String str = fetch.fetchJsonElement(releaseEndPoint,"\"tag_name\"");
 					if (str != null)
 						if (str.equals(Setup.version))
 							JOptionPane.showMessageDialog(VisualAp.this, "No need to upgrade", "Check Version", JOptionPane.INFORMATION_MESSAGE, largeicon);
 						else {
-							Desktop.getDesktop().browse(java.net.URI.create(hostingWebServer+"download.php?filename=visualap.html"));
-// JDK 1.5:					new BareBonesBrowserLaunch().openURL(hostingWebServer+"download.php?filename=visualap.html");
+							Desktop.getDesktop().browse(java.net.URI.create(releasePage));
 						}
 					else
 						JOptionPane.showMessageDialog(VisualAp.this, "Technical problems\nRetry later","Error",JOptionPane.ERROR_MESSAGE);

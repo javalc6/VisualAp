@@ -1,5 +1,6 @@
 /*
 Version 1.0, 03-02-2008, First release
+Version 1.2.2, 15-12-2025, added new method fetchJsonElement
 
 IMPORTANT NOTICE, please read:
 
@@ -40,7 +41,7 @@ public class WebFetch {
 			line = line.toLowerCase();
 			int i = line.indexOf(element);
 			if (i != -1) {
-				return (line.substring(i+element.length()).split("<")[0].trim());
+				return line.substring(i+element.length()).split("<")[0].trim();
 			}
 		}
 		inStream.close();
@@ -67,4 +68,28 @@ public class WebFetch {
 		inStream.close();
 		outStream.close();
 	}
+
+
+	public String fetchJsonElement(String urlName, String element) throws IOException {
+		URL url = new URL(urlName);
+		HttpURLConnection connection = (HttpURLConnection)url.openConnection();
+		String os = System.getProperty("os.name")+";"+System.getProperty("os.arch")+";"+System.getProperty("os.version");
+		connection.setRequestProperty("User-Agent",VisualAp.getAppName()+" "+Setup.version+"("+os+")");
+		int responseCode = connection.getResponseCode();
+		if (responseCode != HttpURLConnection.HTTP_OK) {
+			throw new IOException("HTTP response code: " + responseCode);
+		}
+		BufferedReader inStream = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+		String line;
+		while ((line = inStream.readLine())!= null) {
+			line = line.toLowerCase();
+			int i = line.indexOf(element), idx;
+			if (i != -1 && (idx = line.indexOf("\"", i + element.length() + 2)) != -1)
+				return line.substring(i + element.length() + 2, idx).trim();
+		}
+		inStream.close();
+		return null;
+	}
+
+
 }
