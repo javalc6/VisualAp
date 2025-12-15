@@ -3,6 +3,7 @@ Version 1.0, 30-12-2007, First release
 Version 1.1, 03-02-2008, added component <version> handling, prepared for MDI support
 Version 1.2, 06-01-2010, new cursor when selecting a component from the toolbox, two outputs cannot be connected together, arrow drawing on input pin
 Version 1.2.1, 13-03-2010, modified handling of properties
+Version 1.3, 15-12-2025, added classloader to XMLDecoder
 
 IMPORTANT NOTICE, please read:
 
@@ -29,6 +30,7 @@ import java.awt.event.*;
 import javax.swing.*; 
 import java.awt.print.*;
 import java.util.*;
+import java.util.prefs.*;
 import java.io.*;
 import java.beans.*;
 import java.lang.reflect.*;
@@ -142,17 +144,20 @@ class GPanel extends JPanel implements Printable, MouseListener, MouseMotionList
 		updatel.clear();
 		propertySheet.setVisible(false);
 		failure = null;
-//zz bisogna gestire le exception interne: ExceptionListener in XMLDecoder
+		Preferences prefs = Preferences.userNodeForPackage(VisualAp.class);
+		String datapath = prefs.get("dataPath", null); 
+		ArrayList<String> jarNames = LoadBeans.getJarNames(datapath+File.separatorChar+"beans");	
+		ClassLoader classLoader = DynamicJarLoader.createLoaderForJars(jarNames);
 		java.beans.XMLDecoder decoder = new java.beans.XMLDecoder(
-						  new BufferedInputStream(new FileInputStream(file)));
-		decoder.setExceptionListener(new ExceptionListener() {
-			public void exceptionThrown(Exception e) {
-//			 e.printStackTrace();
-			if (e instanceof java.lang.ClassNotFoundException)	{
-				updatel.add(e.getMessage());
-			}
-			 failure = e;
-		}});
+			  new BufferedInputStream(new FileInputStream(file)), null,
+					new ExceptionListener() {
+						public void exceptionThrown(Exception e) {
+			//			 e.printStackTrace();
+						if (e instanceof java.lang.ClassNotFoundException)	{
+							updatel.add(e.getMessage());
+						}
+						 failure = e;
+					}}, classLoader);
 		Object [] al = null;
 		GList<Node> nl;
 		try {

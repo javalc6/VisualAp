@@ -98,7 +98,7 @@ class LoadBeans extends ArrayList<BeanDelegate> {
 
 
 
-    private static ArrayList<String> getJarNames(String beansDir) {
+    public static ArrayList<String> getJarNames(String beansDir) {
 		File jars = new File(beansDir);
 
 		if (! jars.isDirectory()) {
