@@ -31,14 +31,14 @@ import java.awt.event.*;
 class DialogPref extends JDialog
                    implements PropertyChangeListener {
 
-    private JTextField textField = new JTextField(10);
+    private final JTextField textField = new JTextField(10);
 
-    private JOptionPane optionPane;
+    private final JOptionPane optionPane;
 
-    private String btnString1 = "Apply";
-    private String btnString2 = "Cancel";
+    private final String btnString1 = "Apply";
+    private final String btnString2 = "Cancel";
 
-	private VisualAp parent;
+	private final VisualAp parent;
 
 
     /** Creates the reusable dialog. */
@@ -72,7 +72,7 @@ class DialogPref extends JDialog
         addWindowListener(new WindowAdapter() {
                 public void windowClosing(WindowEvent we) {
 
-                    optionPane.setValue(new Integer(
+                    optionPane.setValue(Integer.valueOf(
                                         JOptionPane.CLOSED_OPTION));
             }
         });

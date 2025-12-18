@@ -25,7 +25,7 @@ import java.util.prefs.*;
 import java.util.jar.*;
 
 public class Setup {
-	static Preferences prefs = Preferences.userNodeForPackage(Setup.class);
+	static final Preferences prefs = Preferences.userNodeForPackage(Setup.class);
 	static final String version = "1.2.2";
 
 	static boolean checkExt(String s, String ext) {
@@ -102,7 +102,7 @@ public class Setup {
 			String dataPath = prefs.get("dataPath", null); 
 			Enumeration<JarEntry> entries = f.entries();
 			while(entries.hasMoreElements()) {
-				JarEntry entry = (JarEntry) entries.nextElement();
+				JarEntry entry = entries.nextElement();
 				String entryname = entry.getName();
 				if (entry.isDirectory()) {
 					new File(entryname).mkdirs();

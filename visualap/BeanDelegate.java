@@ -31,11 +31,11 @@ import java.lang.reflect.Field;
 import java.beans.*;
 
 public class BeanDelegate {
-	protected String name;
+	protected final String name;
 	protected Class<?> clazz;
 	protected Image icon;
 	protected URL helpfile;
-	protected ClassLoader classLoader;
+	protected final ClassLoader classLoader;
 	protected String toolTipText;
 	protected long serialUID;
 	protected String version;
@@ -58,7 +58,7 @@ public class BeanDelegate {
 			if (helpfile == null)
 				helpfile = clazz.getResource(shortName(name)+".html");
 			try {
-				Method m = clazz.getMethod("getToolTipText",new Class[0]);		
+				Method m = clazz.getMethod("getToolTipText");
 				toolTipText = (String)m.invoke(null, new Object[0]);
 			}
 			catch (NoSuchMethodException ex) {} // don't care

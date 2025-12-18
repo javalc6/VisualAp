@@ -46,7 +46,7 @@ class LoadBeans extends ArrayList<BeanDelegate> {
 			for (int i = 0; i < jarNames.size(); i++) {
 				name = jarNames.get(i);
 				ArrayList<String> beanNames = getBeansName(name);
-				if (beanNames.size() != 0)	{	
+				if (!beanNames.isEmpty())	{
 					for (int k = 0; k < beanNames.size(); k++)	{
 						String beanName = beanNames.get(k);
 						try {
@@ -82,11 +82,8 @@ class LoadBeans extends ArrayList<BeanDelegate> {
 
 // checkVersion returns true only if ver2 is greater than ver
     public boolean checkVersion(String ver, String ver2) {
-		int min;
-		if (ver.length() > ver2.length())
-			min = ver2.length();
-		else min = ver.length();
-		for (int i=0; i<min; i++) {
+		int min = Math.min(ver.length(), ver2.length());
+        for (int i=0; i<min; i++) {
 			if (ver.charAt(i) < ver2.charAt(i))
 				return true;
 			else if (ver.charAt(i) == ver2.charAt(i))
@@ -106,7 +103,7 @@ class LoadBeans extends ArrayList<BeanDelegate> {
 		}
 
 		ArrayList<String> result = new ArrayList<>();
-		String names[];
+		String[] names;
 		names = jars.list((f, name) -> name.toLowerCase().endsWith(".jar"));
 		if (names != null)
             for (String name : names) {

@@ -75,11 +75,11 @@ public class VisualAp extends JFrame implements DropTargetListener {
 	static final String releaseEndPoint = "https://api.github.com/repos/javalc6/visualap/releases/latest";
 	static GPanel activePanel;
 	static String fname=defaultFileName;
-	static ImageIcon largeicon = new ImageIcon(VisualAp.class.getResource("logo64.png"));
-	static ImageIcon icon = new ImageIcon(VisualAp.class.getResource("logo16.gif"));
+	static final ImageIcon largeicon = new ImageIcon(VisualAp.class.getResource("logo64.png"));
+	static final ImageIcon icon = new ImageIcon(VisualAp.class.getResource("logo16.gif"));
 	static JFileChooser fc = null;
-	static Preferences prefs = Preferences.userNodeForPackage(VisualAp.class);
-	DialogPref DialogPref;
+	static final Preferences prefs = Preferences.userNodeForPackage(VisualAp.class);
+	final DialogPref DialogPref;
 	HelpWindow hWindow = new HelpWindow(545+70, 20);
 
 	static final double z_arrow_length = 8.0; // arrow length in pixels
@@ -91,10 +91,10 @@ public class VisualAp extends JFrame implements DropTargetListener {
 	private static boolean wo_fc;
 	private static Thread thread_fc;
 
-	ArrayList<BeanDelegate> beans;
-    JDesktopPane desktop;
+	final ArrayList<BeanDelegate> beans;
+    final JDesktopPane desktop;
 	Point savedPoint = new Point(0,0);
-	ArrayList<Node> copyL = new ArrayList<Node>();
+	final ArrayList<Node> copyL = new ArrayList<>();
 
 	public VisualAp(String filename) {
 		super(WindowTitle);
@@ -307,7 +307,7 @@ private class InsertBean implements callback {
     }
 	public boolean isNull() {
 		return (activePanel == null) || (activePanel.insertBean == null);
-	};
+	}
 }
 
 	void updateComponents(HashSet<String> updatel) {
@@ -376,19 +376,19 @@ private class InsertBean implements callback {
 //
 
 	JMenu editMenu;
-	JMenuItem edit = editItem("Properties...");
-	JMenuItem copy = copyItem("Copy");
-	JMenuItem cut = cutItem("Cut");
-	JMenuItem unbind = unbindItem("Unbind");
-	JMenuItem paste = pasteItem("Paste");
-	JMenuItem insert;
-	JMenuItem save = new JMenuItem("Save");
-	JMenuItem saveas = new JMenuItem("Save As...");
-	JMenuItem print = new JMenuItem("Print...");
-	JMenuItem check = new JMenuItem("Check");
-	JMenuItem run = new JMenuItem("Run");
-	JMenuItem editprops = new JMenuItem("Properties...");
-	JMenuItem prefer = new JMenuItem("Preferences...");
+	final JMenuItem edit = editItem("Properties...");
+	final JMenuItem copy = copyItem("Copy");
+	final JMenuItem cut = cutItem("Cut");
+	final JMenuItem unbind = unbindItem("Unbind");
+	final JMenuItem paste = pasteItem("Paste");
+	final JMenuItem insert;
+	final JMenuItem save = new JMenuItem("Save");
+	final JMenuItem saveas = new JMenuItem("Save As...");
+	final JMenuItem print = new JMenuItem("Print...");
+	final JMenuItem check = new JMenuItem("Check");
+	final JMenuItem run = new JMenuItem("Run");
+	final JMenuItem editprops = new JMenuItem("Properties...");
+	final JMenuItem prefer = new JMenuItem("Preferences...");
 
 	void setupMenuBar() {
 		JMenuBar menuBar = new JMenuBar();
@@ -410,7 +410,7 @@ private class InsertBean implements callback {
 					cut.setEnabled(activePanel.selection.size() != 0);
 					unbind.setEnabled(activePanel.selection.size() != 0);
 					copy.setEnabled(activePanel.selection.size() != 0);
-					paste.setEnabled(copyL.size() != 0);
+					paste.setEnabled(!copyL.isEmpty());
 				} else {
 					edit.setEnabled(false);
 					cut.setEnabled(false);
@@ -719,7 +719,7 @@ private class InsertBean implements callback {
 				popup.add(unbindItem("Unbind"));
 				popup.add(copyItem("Copy"));
 			}
-			if (copyL.size() != 0) popup.add(pasteItem("Paste"));
+			if (!copyL.isEmpty()) popup.add(pasteItem("Paste"));
 			popup.show(e.getComponent(), e.getX(), e.getY());
 		}
 	}
@@ -808,7 +808,7 @@ private class InsertBean implements callback {
 		   public void actionPerformed(ActionEvent e) {
 			   if (activePanel.selection.size() > 0) {
 // il problema java.util.ConcurrentModificationException � stato risolto introducendo la lista garbage
-					HashSet<Edge> garbage = new HashSet<Edge>();
+					HashSet<Edge> garbage = new HashSet<>();
 					for (Node t : activePanel.selection) {
 						for (Edge c : activePanel.EdgeL)
 							if ((c.from.getParent() == t)||(t == c.to.getParent()))
@@ -830,7 +830,7 @@ private class InsertBean implements callback {
 		   public void actionPerformed(ActionEvent e) {
 			   if (activePanel.selection.size() > 0) {
 // il problema java.util.ConcurrentModificationException � stato risolto introducendo la lista garbage
-					HashSet<Edge> garbage = new HashSet<Edge>();
+					HashSet<Edge> garbage = new HashSet<>();
 					for (Node t : activePanel.selection) {
 						for (Edge c : activePanel.EdgeL)
 							if ((c.from.getParent() == t)||(t == c.to.getParent()))
@@ -869,7 +869,7 @@ private class InsertBean implements callback {
 		JMenuItem menuItem = new JMenuItem(text);
 		menuItem.addActionListener(new ActionListener() {
 		   public void actionPerformed(ActionEvent e) {
-			   if (copyL.size() > 0) {
+			   if (!copyL.isEmpty()) {
 					activePanel.clear_selection();
 					activePanel.selection.addAll(copyL);
 					copyL.clear();
@@ -943,9 +943,7 @@ private class InsertBean implements callback {
                         File file = new File(fname);
                         activePanel.readXML(file, updatel);
                         activePanel.writeXML(file);
-                    } catch (VersionException ex) {
-                        System.err.println(ex);
-                    } catch (IOException ex) {
+                    } catch (VersionException | IOException ex) {
                         System.err.println(ex);
                     }
 
@@ -1013,7 +1011,7 @@ private class InsertBean implements callback {
 			System.out.println("Beans directory: " + datapath+File.separatorChar+"beans");
 			System.out.println("================================");
 			ArrayList<BeanDelegate> beans = new LoadBeans().load(datapath+File.separatorChar+"beans");
-			if (beans.size() == 0)
+			if (beans.isEmpty())
 				System.out.println("No valid components found in directory "+datapath+File.separatorChar+"beans");
 			for (int i=0; i < beans.size(); i++) {
 				BeanDelegate bean = beans.get(i);

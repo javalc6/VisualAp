@@ -40,14 +40,14 @@ import property.*;
 class GPanel extends JPanel implements Printable, MouseListener, MouseMotionListener  {
 
 	final int z_default_blocksize = 1024;
-	ArrayList<BeanDelegate> beans;
-	VisualAp parent;
+	final ArrayList<BeanDelegate> beans;
+	final VisualAp parent;
 
     Point pick = null;
-	Selection<Node> selection = new Selection<Node>();
+	final Selection<Node> selection = new Selection<Node>();
 	GList<Node> nodeL = new GList<Node>();
 	Pin drawEdge;
-	Edges EdgeL = new Edges();
+	final Edges EdgeL = new Edges();
 	Point mouse;
 
 	HashMap<String, Object> globalVars = new HashMap<>();
@@ -57,14 +57,14 @@ class GPanel extends JPanel implements Printable, MouseListener, MouseMotionList
 	String insertBeanName;
 	Class insertBean = null;
 	JMenu newMenu;
-	PropertySheet propertySheet = new PropertySheet(null, null, 620, 20);
+	final PropertySheet propertySheet = new PropertySheet(null, null, 620, 20);
 	HelpWindow hWindow;
 
 	// handling of selection rectange
     Rectangle currentRect = null;
     Rectangle rectToDraw = null;
-    Rectangle previousRectDrawn = new Rectangle();
-    final static float dash1[] = {5.0f};
+    final Rectangle previousRectDrawn = new Rectangle();
+    final static float[] dash1 = {5.0f};
 	final static BasicStroke dashed = new BasicStroke(1.0f, 
                                                       BasicStroke.CAP_BUTT, 
                                                       BasicStroke.JOIN_MITER, 
@@ -104,7 +104,7 @@ class GPanel extends JPanel implements Printable, MouseListener, MouseMotionList
 		if (aNode instanceof NodeText) {
 			propertySheet.setVisible(false);
 			String inputValue = JOptionPane.showInputDialog("Edit text:",((NodeText)aNode).getText()); 
-			if ((inputValue != null)&&(inputValue.length() != 0)) {
+			if ((inputValue != null)&&(!inputValue.isEmpty())) {
 				((NodeText)aNode).setText(inputValue);
 				repaint();
 			}
@@ -121,11 +121,8 @@ class GPanel extends JPanel implements Printable, MouseListener, MouseMotionList
 
 // checkVersion returns true only if ver2 is greater than ver
     public boolean checkVersion(String ver, String ver2) {
-		int min;
-		if (ver.length() > ver2.length())
-			min = ver2.length();
-		else min = ver.length();
-		for (int i=0; i<min; i++) {
+		int min = Math.min(ver.length(), ver2.length());
+        for (int i=0; i<min; i++) {
 			if (ver.charAt(i) < ver2.charAt(i))
 				return true;
 			else if (ver.charAt(i) == ver2.charAt(i))
@@ -170,7 +167,7 @@ class GPanel extends JPanel implements Printable, MouseListener, MouseMotionList
 			if (!hd.get("application").equals("VisualAp"))
 				throw new IOException("Invalid application found: "+hd.get("application"));
 			obj = decoder.readObject();
-			if ((obj == null)|| !(obj instanceof HashMap)) 
+			if (!(obj instanceof HashMap))
 				throw new IOException("Invalid file format");
 			globalVars = (HashMap)obj; 
 			obj = decoder.readObject();
@@ -198,13 +195,10 @@ class GPanel extends JPanel implements Printable, MouseListener, MouseMotionList
 			al = (Object []) decoder.readObject();
 			decoder.close();
 		}
-		catch (java.util.NoSuchElementException ex)	{
+		catch (NoSuchElementException | ArrayIndexOutOfBoundsException ex)	{
 			throw new IOException("Invalid file format");
 		}
-		catch (java.lang.ArrayIndexOutOfBoundsException ex)	{
-			throw new IOException("Invalid file format");
-		}
-		if (failure == null) {
+    if (failure == null) {
 			nodeL.clear();
 			if (nl != null) {
 				nodeL = nl;
@@ -546,4 +540,4 @@ class GPanel extends JPanel implements Printable, MouseListener, MouseMotionList
 		insertBean = bean;
     }
 
-};
+}

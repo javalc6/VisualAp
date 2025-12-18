@@ -26,8 +26,8 @@ import javax.swing.*;
 
 public class Engine extends Thread {
 	Vertex [] vertexL;
-	CancelDialog waiting;
-	Frame owner;
+	final CancelDialog waiting;
+	final Frame owner;
 	StringBuffer error;
 	boolean cancel = false;
 
@@ -86,19 +86,19 @@ public class Engine extends Thread {
                     } catch (IllegalAccessException ex) {
                         System.err.println("Engine.run: IllegalAccessException " + ex.getMessage());
                         running = false;
-                        error.append("\nIllegalAccessException in " + vertex.aNode.getLabel());
+                        error.append("\nIllegalAccessException in ").append(vertex.aNode.getLabel());
                     } catch (InvocationTargetException ex) {
                         Throwable ex2 = ex.getCause(); // get the effective exception that caused InvocationTargetException
 //						System.err.println("Engine.run: "+ex2.toString());
                         ErrorPrinter.printInfo(ex2.toString());
                         ErrorPrinter.dump(ex2, VisualAp.getUniqueID());
                         running = false;
-                        error.append("\n" + ex2 + " in " + vertex.aNode.getLabel());
+                        error.append("\n").append(ex2).append(" in ").append(vertex.aNode.getLabel());
                     } catch (Exception ex) {
 //						System.err.println("Engine.run: Exception "+ex.getMessage());
                         System.err.println("Engine.run: " + ex);
                         running = false;
-                        error.append("\nException (" + ex.getMessage() + ") in " + vertex.aNode.getLabel());
+                        error.append("\nException (").append(ex.getMessage()).append(") in ").append(vertex.aNode.getLabel());
                     }
                 }
                 if (iterations > 0) {
@@ -109,7 +109,7 @@ public class Engine extends Thread {
 //						System.err.println("Engine.run: "+ex2.toString());
                         ErrorPrinter.printInfo(ex2.toString());
                         ErrorPrinter.dump(ex2, VisualAp.getUniqueID());
-                        error.append("\n" + ex2 + " in " + vertex.aNode.getLabel());
+                        error.append("\n").append(ex2).append(" in ").append(vertex.aNode.getLabel());
                         running = false;
                     }
                     if (iterations == stoppedIterations) running = false; // stop iteration
@@ -125,7 +125,7 @@ public class Engine extends Thread {
 
 // class CancelDialog
 	class CancelDialog extends JDialog {
-		Engine engine;
+		final Engine engine;
 
 		public CancelDialog(Engine en) {
 			super(owner, owner.getTitle(), true);

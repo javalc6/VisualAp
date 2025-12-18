@@ -32,13 +32,13 @@ public class ErrorPrinter {
 // printInfo() prints a message
 	public static void printInfo(String message) {
         Throwable t = new Throwable();
-        StackTraceElement elements[] = t.getStackTrace();
+        StackTraceElement[] elements = t.getStackTrace();
         System.err.println(elements[1].getClassName()+"." + elements[1].getMethodName()+": "+message);
 	}
 
 // printInfo() prints a message
 	public static void printInfo(Throwable ex) {
-        StackTraceElement elements[] = ex.getStackTrace();
+        StackTraceElement[] elements = ex.getStackTrace();
         System.err.println(elements[1].getClassName()+"." + elements[1].getMethodName()+": "+"Exception: "+ex.getMessage());
 	}
 

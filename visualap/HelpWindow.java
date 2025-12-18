@@ -28,7 +28,7 @@ import javax.swing.text.html.*;
 import java.io.*;
 
 public class HelpWindow extends JFrame{
-	JEditorPane editorPane;
+	final JEditorPane editorPane;
 	public HelpWindow(int x, int y) {
 		super("Help Window");
 		addWindowListener(new WindowAdapter() {

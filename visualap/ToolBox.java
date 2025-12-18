@@ -39,17 +39,17 @@ interface callback {
 
 class ToolBox extends JPanel implements MouseListener {
 
-	ArrayList<BeanDelegate> beans;
-	callback cb;
+	final ArrayList<BeanDelegate> beans;
+	final callback cb;
 
-    private int topPad = 0;
+    private final int topPad = 0;
     private int sidePad = 0;
     private final static int rowHeight = 20;
 
-	private static Toolkit toolkit = Toolkit.getDefaultToolkit();
-    private static Cursor componentCursor = toolkit.createCustomCursor(
+	private static final Toolkit toolkit = Toolkit.getDefaultToolkit();
+    private static final Cursor componentCursor = toolkit.createCustomCursor(
 		toolkit.getImage(VisualAp.class.getResource("compo.png")), new Point(0, 0), "Component");
-    private static Cursor defaultCursor = Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR);
+    private static final Cursor defaultCursor = Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR);
 
 	ToolBox(ArrayList<BeanDelegate> beans, callback cb) {
 		this.beans = beans;
@@ -64,7 +64,7 @@ class ToolBox extends JPanel implements MouseListener {
 
 
     public Dimension getPreferredSize() {	
-		if ((beans != null) && beans.size() != 0) {
+		if ((beans != null) && !beans.isEmpty()) {
 			return new Dimension(145, rowHeight*(beans.size()+1) + getInsets().bottom + 32);
 		}  else {
 			return new Dimension(145, 0); // empty toolbox

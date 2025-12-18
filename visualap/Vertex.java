@@ -33,8 +33,8 @@ class Backward {
 }
 
 public class Vertex {
-	protected transient Object obj;
-	protected transient NodeBean aNode;
+	protected final transient Object obj;
+	protected final transient NodeBean aNode;
 	protected transient Backward [] backward = new Backward[0]; 
 	protected transient Object [] iobuf_in = new Object[0]; 
 	protected transient Object [] iobuf_out = new Object[0]; 
@@ -54,16 +54,16 @@ public class Vertex {
 // code here must be in sync with BeanDelegate.java constructor
 				Class<?> clazz = obj.getClass();
 				try {
-					start = clazz.getMethod("start",new Class[0]);	
+					start = clazz.getMethod("start");
 				}
 				catch (NoSuchMethodException ex) {} // don't care
 				try {
-					iterate = clazz.getMethod("iterate",new Class[0]);	
+					iterate = clazz.getMethod("iterate");
 					iterative = true;
 				}
 				catch (NoSuchMethodException ex) {} // don't care
 				try {
-					stop = clazz.getMethod("stop",new Class[0]);	
+					stop = clazz.getMethod("stop");
 				}
 				catch (NoSuchMethodException ex) {} // don't care
 
@@ -89,14 +89,14 @@ public class Vertex {
 	public void start() throws InvocationTargetException {
 		if (start!= null)
 				try {
-					start.invoke(obj,new Object[0]);
+					start.invoke(obj);
 				} catch (IllegalAccessException ex) { } // ignore
 	}
 // iterate() used only for running of graph
 	public boolean iterate() throws InvocationTargetException  {
 		if (iterate!= null)
 				try {
-					return iterate.invoke(obj,new Object[0]).equals(true);
+					return iterate.invoke(obj).equals(true);
 				} catch (IllegalAccessException ex) { } // ignore
 		else return !isSource;
 		return true;
@@ -105,7 +105,7 @@ public class Vertex {
 	public void stop()  {
 		if (stop!= null)
 				try {
-					stop.invoke(obj,new Object[0]);
+					stop.invoke(obj);
 				} catch (IllegalAccessException ex) { // ignore
 				} catch (InvocationTargetException ex) { } // ignore
 	}

@@ -25,19 +25,19 @@ import java.util.ArrayList;
 import graph.*;
 
 public class Check {
-	private ArrayList<NodeBean> nodeL;
-	private Edges EdgeL;
+	private final ArrayList<NodeBean> nodeL;
+	private final Edges EdgeL;
 	private int nextMark, lostMark;
-	private ArrayList<Node> errorList;
+	private final ArrayList<Node> errorList;
 
 	public Check(GList<Node> nodeL, Edges EdgeL) {
-		this.nodeL = new ArrayList<NodeBean>();
+		this.nodeL = new ArrayList<>();
 		for (Node aNode : nodeL)
 			if (aNode instanceof NodeBean) 
 				this.nodeL.add((NodeBean)aNode);		
 
 		this.EdgeL = EdgeL;
-		errorList = new ArrayList<Node>();
+		errorList = new ArrayList<>();
 	}
 
 /* graph analysis
