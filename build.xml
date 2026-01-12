@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="VisualAP" default="setup-jar" basedir=".">
+
+    <property name="src.dir" value="src"/>
+    <property name="build.dir" value="classes"/>
+
+    <target name="clean">
+        <delete>
+            <fileset dir="." includes="**/*.class, **/*.bak"/>
+        </delete>
+        <delete dir="${build.dir}" quiet="true"/>
+    </target>
+
+    <target name="compile" depends="clean">
+        <mkdir dir="${build.dir}"/>
+        <javac srcdir="${src.dir}" 
+               destdir="${build.dir}" 
+               debug="true" 
+               includeantruntime="false">
+        </javac>
+    </target>
+
+    <target name="copy-resources" depends="compile">
+        <copy todir="${build.dir}">
+            <fileset dir="${src.dir}">
+                <include name="**/*.png"/>
+                <include name="**/*.jpg"/>
+                <include name="**/*.gif"/>
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="main-jar" depends="copy-resources">
+        <jar destfile="visualap.jar" manifest="build.mf">
+            <fileset dir="${src.dir}">
+                <include name="visualap/**/*.*"/>
+                <include name="graph/**/*.*"/>
+                <include name="property/**/*.*"/>
+                <include name="parser/**/*.*"/>
+                <include name="common/**/*.*"/>
+                <include name="json/**/*.*"/>
+            </fileset>
+            <fileset dir="${build.dir}" includes="**/*"/>
+        </jar>
+    </target>
+
+    <target name="setup-jar" depends="main-jar">
+        <jar destfile="visualap-setup.jar" manifest="setup.mf">
+            <fileset dir=".">
+                <include name="visualap.jar"/>
+                <include name="beans/*.jar"/>
+                <include name="doc/*.pdf"/>
+                <include name="readme.txt"/>
+                <include name="license.txt"/>
+                <include name="ding.wav"/>
+                <include name="*.jpg"/>
+                <include name="examples/*.vas"/>
+                <include name="*.mf"/>
+                <include name="build.bat"/>
+                <include name="visualap.bat"/>
+                <include name="visualap.sh"/>
+            </fileset>
+            <fileset dir="${build.dir}">
+                <include name="visualap/Setup.class"/>
+            </fileset>
+        </jar>
+    </target>
+
+</project>
