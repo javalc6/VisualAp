@@ -1,20 +1,20 @@
 # VisualAp
 VisualAp is a visual framework for building application and systems based on visual components.
-# Overview
+## Overview
 VisualAp can be used in order to perform audio processing, image processing, text and other process-driven emulation. VisualAp provides a visual framework based on lightweight components, called proclet.
 The user can create an application by selecting the components from a toolbox, configuring the parameters (via the Javabeans framework), and connecting the components together in order to set-up communication channels between the components. Please [click here](wiki/VisualAp.wiki) and read the [user guide](doc/userguide.pdf) for more information. 
 
 This application has been tested wit Java 11 and Java 25.
 
-# Build
+## Build
 The batch file build.bat can be used to build the project. It generates the classes and two jar files: visualap-setup.jar and visualap.jar
-# Install
+## Install
 VisualAp has to be installed by running visualap-setup.jar:
 ```
 java -jar visualap-setup.jar
 ```
 Please [click here](wiki/Installation.wiki) for additional information.
-# Run
+## Run
 Launch VisualAp in one of the following alternatives:
 ```
 java -jar visualap.jar
@@ -23,7 +23,7 @@ or
 ```
 java visualap.VisualAp
 ```
-# User Interface
+## User Interface
 
 Here is a screenshot of the user interface:
 
@@ -31,7 +31,7 @@ Here is a screenshot of the user interface:
 
 The user interface is described in more details [here](wiki/UserInterface.wiki).
 
-# Short tutorial
+## Short tutorial
 
 * Launch the application VisualAp, or select File->New if it is already running
 * Select in the toolbox the “ReadFile” component, move and click the mouse pointer in the left side of the workspace: the component ReadFile is placed in the left side of the workplace
@@ -47,3 +47,18 @@ The user interface is described in more details [here](wiki/UserInterface.wiki).
 * Run the system, again System->Run, the image will change due to the new filter.
 
 Additional information are available in the [developer guide](doc/developerguide.pdf).
+
+## Processing components
+* Echo: apply echo effect to audio stream
+* Delay: apply delay to audio stream
+* DeMux: split stereo audio in two mono audio
+* Imagefilter: performs basic filtering of image
+* Imagetransform: performs basic transforms of image
+* Inspect: shows the type of the incoming data
+* Microfone: records an audio stream
+* Mux: generate stereo audio from two mono audio inputs
+* ReadFile: read a file, contains a property "file" -> a custom editor is used for file property
+* Speaker: plays an audio stream
+* ToneGenerator: generate a simple audio tone, contains properties that are checked against max values, contains a property "type" -> a custom editor is used to select a specific value
+* Viewer: shows the incoming data in a floating window
+* WriteFile: write a file, supported type: text, audio, image
