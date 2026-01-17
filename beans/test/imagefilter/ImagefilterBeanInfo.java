@@ -1,0 +1,61 @@
+package test.imagefilter;
+import java.beans.*;
+import java.lang.reflect.Method;
+
+/**
+ * 
+ * Support class that provides the needed BeanInfo for Imagefilter
+ * 
+ * @author      javalc6
+ * @version     1.0
+ */
+
+public class ImagefilterBeanInfo extends SimpleBeanInfo {
+
+// Here put reference to ICON files (remove if not needed)
+
+    public java.awt.Image getIcon(int iconKind) {
+		if (iconKind == BeanInfo.ICON_COLOR_16x16) {
+			return loadImage("Imagefilter16.png");
+		}
+		if (iconKind == BeanInfo.ICON_COLOR_32x32) {
+			return loadImage("Imagefilter32.png");
+		}
+		return null;
+    }
+
+// Here put reference to custom property editors (remove if not needed)
+
+    public PropertyDescriptor[] getPropertyDescriptors() {
+	try {
+	    PropertyDescriptor pd1 = new PropertyDescriptor("Filter",	Imagefilter.class);
+	    pd1.setPropertyEditorClass(FilterNameEditor.class);
+	    PropertyDescriptor result[] = { pd1};
+	    return result;
+	} catch (IntrospectionException ex) {
+	    System.err.println("MuxBeanInfo: unexpected exception: " + ex);
+	    return null;
+	}
+    }
+
+
+// Here put reference to supported methods (remove if not needed)
+
+	public MethodDescriptor[] getMethodDescriptors() {
+	// First find the "method" object.
+		Class args[] = { java.awt.image.BufferedImage.class};
+		Method m;
+		try {
+			m = Imagefilter.class.getMethod("output", args);
+		} catch (Exception ex) {
+			// "should never happen"
+			throw new Error("Missing method: " + ex);
+		}
+
+	// Now create the MethodDescriptor array:
+		MethodDescriptor result[] = new MethodDescriptor[1];
+		result[0] = new MethodDescriptor(m); 
+		return result;
+    }
+
+}
