@@ -23,7 +23,7 @@ java -jar visualap.jar
 
 Here is a screenshot of the user interface:
 
-![Screenshot](https://raw.githubusercontent.com/javalc6/VisualAp/master/visualap/helpfile_c.png)
+![Screenshot](https://raw.githubusercontent.com/javalc6/VisualAp/master/src/visualap/helpfile_c.png)
 
 The user interface is described in more details [here](wiki/UserInterface.wiki).
 
