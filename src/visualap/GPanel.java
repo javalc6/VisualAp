@@ -302,10 +302,9 @@ class GPanel extends JPanel implements Printable, MouseListener, MouseMotionList
     }
 
     public void mousePressed(MouseEvent e) {
-// generato nell'istante in cui il mouse viene premuto
 		int x = e.getX();
 		int y = e.getY();
-// qui � obbligatorio un iteratore che scandisce la lista al contrario!
+// iterator to loop backward
 		for (ListIterator<Node> it = nodeL.listIterator(nodeL.size()); it.hasPrevious(); ) {
 			Node aNode = it.previous();
 			Object sel = aNode.contains(x,y);
@@ -328,7 +327,6 @@ class GPanel extends JPanel implements Printable, MouseListener, MouseMotionList
 // check selected element, is it a Pin?
 			else if (sel instanceof Pin) {
 				drawEdge = (Pin) sel;
-//	System.out.println(drawEdge);
 				mouse = new Point (x,y);
 				changeCursor(Cursor.CROSSHAIR_CURSOR);
 				return;
@@ -345,7 +343,6 @@ class GPanel extends JPanel implements Printable, MouseListener, MouseMotionList
 	}
 
     public void mouseReleased(MouseEvent e) {
-// generato quando il mouse viene rilasciato, anche a seguito di click
 		int x = e.getX();
 		int y = e.getY();
         if (pick != null) {
@@ -407,7 +404,6 @@ class GPanel extends JPanel implements Printable, MouseListener, MouseMotionList
 	}
 
     public void mouseDragged(MouseEvent e) {
-// generato quando il mouse premuto viene spostato, vari eventi sono generati durante il trascinamento
 		if (pick!= null) {
 			for (Node iNode : selection)
 				iNode.drag(e.getX()-pick.x, e.getY()-pick.y);
@@ -424,14 +420,11 @@ class GPanel extends JPanel implements Printable, MouseListener, MouseMotionList
 	}
 
     public void mouseMoved(MouseEvent e) {
-// generato quando il mouse viene spostato senza essere premuto
     }
     public void mouseEntered(MouseEvent e) {
-// generato quando il mouse entra nella finestra
 		cursor = true;
     }
     public void mouseExited(MouseEvent e) {
-// generato quando il mouse esce dalla finestra
 		cursor = false;
     }
 

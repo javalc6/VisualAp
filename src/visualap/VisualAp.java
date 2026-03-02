@@ -841,7 +841,7 @@ private class InsertBean implements callback {
 		JMenuItem menuItem = new JMenuItem(text);
 		menuItem.addActionListener(e -> {
 			   if (activePanel.selection.size() > 0) {
-// il problema java.util.ConcurrentModificationException � stato risolto introducendo la lista garbage
+// java.util.ConcurrentModificationException solved implementing set garbage
 					HashSet<Edge> garbage = new HashSet<>();
 					for (Node t : activePanel.selection) {
 						for (Edge c : activePanel.EdgeL)
@@ -862,7 +862,7 @@ private class InsertBean implements callback {
 		JMenuItem menuItem = new JMenuItem(text);
 		menuItem.addActionListener(e -> {
 			   if (activePanel.selection.size() > 0) {
-// il problema java.util.ConcurrentModificationException � stato risolto introducendo la lista garbage
+// java.util.ConcurrentModificationException solved implementing set garbage
 					HashSet<Edge> garbage = new HashSet<>();
 					for (Node t : activePanel.selection) {
 						for (Edge c : activePanel.EdgeL)
