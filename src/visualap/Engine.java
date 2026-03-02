@@ -28,7 +28,7 @@ public class Engine extends Thread {
 	Vertex [] vertexL;
 	final CancelDialog waiting;
 	final Frame owner;
-	StringBuffer error;
+	StringBuilder error;
 	boolean cancel = false;
 
 	public Engine(Frame owner) {
@@ -36,7 +36,7 @@ public class Engine extends Thread {
 		waiting = new CancelDialog(this);
 	}
 	
-	public void runDialog(Vertex [] vertexL, StringBuffer error) {
+	public void runDialog(Vertex [] vertexL, StringBuilder error) {
 		this.vertexL = vertexL;
 		this.error = error;
 		if ((vertexL == null)||(vertexL.length == 0)) return;

@@ -167,7 +167,7 @@ public class VisualAp extends JFrame implements DropTargetListener {
 				if (autorun)
                     SwingUtilities.invokeLater((Runnable) () -> {
                         try	{
-                            StringBuffer error = new StringBuffer();
+                            StringBuilder error = new StringBuilder();
                             Engine engine = new Engine(VisualAp.this);
                             engine.runDialog(
                                 new Check(activePanel.nodeL, activePanel.EdgeL).checkSystem(), error);
@@ -456,9 +456,9 @@ private class InsertBean implements callback {
 			public void menuSelected(MenuEvent e) {
 				if (activePanel != null) {
 					edit.setEnabled(activePanel.selection.size() == 1);
-					cut.setEnabled(activePanel.selection.size() != 0);
-					unbind.setEnabled(activePanel.selection.size() != 0);
-					copy.setEnabled(activePanel.selection.size() != 0);
+					cut.setEnabled(!activePanel.selection.isEmpty());
+					unbind.setEnabled(!activePanel.selection.isEmpty());
+					copy.setEnabled(!activePanel.selection.isEmpty());
 					paste.setEnabled(!copyL.isEmpty());
 				} else {
 					edit.setEnabled(false);
@@ -475,7 +475,7 @@ private class InsertBean implements callback {
 
 
     protected JMenu buildFileMenu() {
-		JMenu file = new JMenu("File");
+		JMenu fileMenu = new JMenu("File");
 		JMenuItem newWin = new JMenuItem("New");
 		JMenuItem open = new JMenuItem("Open...");
 		save.setEnabled(false);
@@ -484,21 +484,19 @@ private class InsertBean implements callback {
 		JMenuItem quit = new JMenuItem("Quit");
 
 // Begin "New"
-		newWin.addActionListener(new ActionListener() {
-		   public void actionPerformed(ActionEvent e) {
+		newWin.addActionListener(e -> {
 				if (checkAndSave()) return;
 				if (activePanel == null) 
 					createFrame(new GPanel(beans, VisualAp.this));
 				activePanel.clear();
 				fname = defaultFileName;
 				activePanel.setTitle(fname);
-		   }});
+		});
 		newWin.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, ActionEvent.CTRL_MASK));
 // End "New"
 
 // Begin "Open"
-		open.addActionListener(new ActionListener() {
-		   public void actionPerformed(ActionEvent e) {
+		open.addActionListener(e -> {
 				if (checkAndSave()) return;
 // workaround for JFileChooser: wait until it is created
 				if (wo_fc)
@@ -522,13 +520,12 @@ private class InsertBean implements callback {
 						ErrorPrinter.showDialog(VisualAp.this, ex);
 					}
                 }
-		   }});
+		});
 		open.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, ActionEvent.CTRL_MASK));
 // End "Open"
 
 // Begin "Save"
-		save.addActionListener(new ActionListener() {
-		   public void actionPerformed(ActionEvent e) {
+		save.addActionListener(e -> {
 				   try {
 					   activePanel.writeXML(new File(fname));
 				   }
@@ -536,13 +533,12 @@ private class InsertBean implements callback {
 				   {    
 						ErrorPrinter.showDialog(VisualAp.this, ex);
 				   }
-		   }});
+		});
 // End "Save"
 		save.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, ActionEvent.CTRL_MASK));
 
 // Begin "SaveAs"
-		saveas.addActionListener(new ActionListener() {
-		   public void actionPerformed(ActionEvent e) {
+		saveas.addActionListener(e -> {
 // workaround for JFileChooser: wait until it is created
 				if (wo_fc)
 					wait_thread_fc();
@@ -558,12 +554,11 @@ private class InsertBean implements callback {
 					   {    
 							ErrorPrinter.showDialog(VisualAp.this, ex);
 					   }
-		   }});
+		});
 // End "SaveAs"
 
 // Begin "Print"
-		print.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		print.addActionListener(e -> {
 							PrinterJob printJob = PrinterJob.getPrinterJob();
 							printJob.setPrintable(activePanel);
 							if (printJob.printDialog()) {
@@ -573,27 +568,26 @@ private class InsertBean implements callback {
 									ErrorPrinter.dump(ex, getUniqueID());
 								}
 							}
-			}});
+		});
 		print.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P, ActionEvent.CTRL_MASK));
 // End "Print"
 
 // Begin "Quit"
-		quit.addActionListener(new ActionListener() {
-		   public void actionPerformed(ActionEvent e) {
+		quit.addActionListener(e -> {
 				quit();
-		   }});
+		});
 // End "Quit"
 
-		file.add(newWin);
-		file.add(open);
-		file.addSeparator();
-		file.add(save);
-		file.add(saveas);
-		file.addSeparator();
-		file.add(print);
-		file.addSeparator();
-		file.add(quit);
-		return file;
+		fileMenu.add(newWin);
+		fileMenu.add(open);
+		fileMenu.addSeparator();
+		fileMenu.add(save);
+		fileMenu.add(saveas);
+		fileMenu.addSeparator();
+		fileMenu.add(print);
+		fileMenu.addSeparator();
+		fileMenu.add(quit);
+		return fileMenu;
     }
 
     protected JMenu buildEditMenu() {
@@ -628,8 +622,7 @@ private class InsertBean implements callback {
 		run.setEnabled(false);
 		editprops.setEnabled(false);
 
-		check.addActionListener(new ActionListener() {
-		   public void actionPerformed(ActionEvent e) {
+		check.addActionListener(e -> {
 				Check chksys = new Check(activePanel.nodeL, activePanel.EdgeL); 
 				try	{
 					chksys.checkSystem();
@@ -644,13 +637,12 @@ private class InsertBean implements callback {
 						activePanel.repaint();
 					}
 				}
-		   }});
-		run.addActionListener(new ActionListener() {
-		   public void actionPerformed(ActionEvent e) {
+		});
+		run.addActionListener(e -> {
 				SwingUtilities.invokeLater((Runnable) () -> {
                     Check chksys = new Check(activePanel.nodeL, activePanel.EdgeL);
                     try	{
-                        StringBuffer error = new StringBuffer();
+                        StringBuilder error = new StringBuilder();
                         Engine engine = new Engine(VisualAp.this);
                         engine.runDialog(chksys.checkSystem(), error);
                         engine.join();
@@ -672,12 +664,11 @@ private class InsertBean implements callback {
                         JOptionPane.showMessageDialog(VisualAp.this, ex.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
                     }
                 });
-		   }});
-		editprops.addActionListener(new ActionListener() {
-		   public void actionPerformed(ActionEvent e) {
+		});
+		editprops.addActionListener(e -> {
 				DialogPref.showDialog();
 
-		   }});
+		});
 
 		system.add(check);
 		system.add(run);
@@ -689,11 +680,10 @@ private class InsertBean implements callback {
 	protected JMenu buildToolsMenu() {
 		JMenu tools = new JMenu("Tools");
 		prefer.setEnabled(false);
-		prefer.addActionListener(new ActionListener() {
-		   public void actionPerformed(ActionEvent e) {
+		prefer.addActionListener(e -> {
 				DialogPref.showDialog();
 
-		   }});
+		});
 
 		tools.add(prefer);
 		return tools;
@@ -707,13 +697,11 @@ private class InsertBean implements callback {
 		JMenuItem about = new JMenuItem("About "+WindowTitle+"...");
 		openHelp.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F1, 0));
 
-		openHelp.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		openHelp.addActionListener(e -> {
 				hWindow.setPage(VisualAp.class.getResource("HelpFile.html"));
-			}});
+		});
 
-		checkVersion.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		checkVersion.addActionListener(e -> {
 				WebFetch fetch = new WebFetch();
 				try {
 					String str = fetch.fetchJsonElement(releaseEndPoint,"\"tag_name\"");
@@ -735,12 +723,11 @@ private class InsertBean implements callback {
 					JOptionPane.showMessageDialog(VisualAp.this, "Technical problems\n"+ex.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
 				}
 
-			}});
+		});
 
-		about.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		about.addActionListener(e -> {
 				JOptionPane.showMessageDialog(VisualAp.this, ABOUTMSG, "About "+WindowTitle, JOptionPane.INFORMATION_MESSAGE, largeicon);
-			}});
+		});
 
 		help.add(openHelp);
 		help.add(addHelpItems("Help on beans...", hWindow));
@@ -775,11 +762,10 @@ private class InsertBean implements callback {
 
 	public JMenuItem editItem(String text) {
 		JMenuItem menuItem = new JMenuItem(text);
-		menuItem.addActionListener(new ActionListener() {
-		   public void actionPerformed(ActionEvent e) {
+		menuItem.addActionListener(e -> {
 //				if ((selection.size() == 1)&&(selection.get(0).edit())) repaint();
 				if (activePanel.selection.size() == 1) activePanel.properties(activePanel.selection.get(0));
-		   }});
+		});
 		return menuItem;
 	}
 
@@ -853,8 +839,7 @@ private class InsertBean implements callback {
 
 	public JMenuItem cutItem(String text) {
 		JMenuItem menuItem = new JMenuItem(text);
-		menuItem.addActionListener(new ActionListener() {
-		   public void actionPerformed(ActionEvent e) {
+		menuItem.addActionListener(e -> {
 			   if (activePanel.selection.size() > 0) {
 // il problema java.util.ConcurrentModificationException � stato risolto introducendo la lista garbage
 					HashSet<Edge> garbage = new HashSet<>();
@@ -869,14 +854,13 @@ private class InsertBean implements callback {
 					activePanel.clear_selection();
 					repaint();
 			   }
-		   }});
+		});
 		return menuItem;
 	}
 
 	public JMenuItem unbindItem(String text) {
 		JMenuItem menuItem = new JMenuItem(text);
-		menuItem.addActionListener(new ActionListener() {
-		   public void actionPerformed(ActionEvent e) {
+		menuItem.addActionListener(e -> {
 			   if (activePanel.selection.size() > 0) {
 // il problema java.util.ConcurrentModificationException � stato risolto introducendo la lista garbage
 					HashSet<Edge> garbage = new HashSet<>();
@@ -890,14 +874,13 @@ private class InsertBean implements callback {
 					activePanel.clear_selection();
 					repaint();
 			   }
-		   }});
+		});
 		return menuItem;
 	}
 
 	public JMenuItem copyItem(String text) {
 		JMenuItem menuItem = new JMenuItem(text);
-		menuItem.addActionListener(new ActionListener() {
-		   public void actionPerformed(ActionEvent e) {
+		menuItem.addActionListener(e -> {
 			   if (activePanel.selection.size() > 0) {
 				   copyL.clear();
 					for (Node t : activePanel.selection)
@@ -910,14 +893,13 @@ private class InsertBean implements callback {
 							ErrorPrinter.printInfo("CloneNotSupportedException");
 						}
 			   }
-		   }});
+		});
 		return menuItem;
 	}
 
 	public JMenuItem pasteItem(String text) {
 		JMenuItem menuItem = new JMenuItem(text);
-		menuItem.addActionListener(new ActionListener() {
-		   public void actionPerformed(ActionEvent e) {
+		menuItem.addActionListener(e -> {
 			   if (!copyL.isEmpty()) {
 					activePanel.clear_selection();
 					activePanel.selection.addAll(copyL);
@@ -936,7 +918,7 @@ private class InsertBean implements callback {
 //					copyL.clear(); copyL.addAll(activePanel.selection);
 					repaint();
 			   }
-		   }});
+		});
 		return menuItem;
 	}
 
