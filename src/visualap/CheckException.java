@@ -17,7 +17,7 @@ package visualap;
 
 public class CheckException extends Exception {
 
-	static final long serialVersionUID = -9058179052846612667L;
+	private static final long serialVersionUID = -9058179052846612667L;
 
     public CheckException(String message) {
         super(message);

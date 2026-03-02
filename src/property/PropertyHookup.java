@@ -37,7 +37,7 @@ import java.util.Vector;
 
 public class PropertyHookup implements PropertyChangeListener, Serializable {
 
-    static final long serialVersionUID = 4502052857914084293L;
+    private static final long serialVersionUID = 4502052857914084293L;
 
     /**
      * Create a property hookup, so that a change to the named bound
@@ -51,12 +51,12 @@ public class PropertyHookup implements PropertyChangeListener, Serializable {
 
 	Vector<PropertyHookupTarget> targets = targetsByPropertyName.get(propertyName);
 	if (targets == null) {
-	    targets = new Vector<PropertyHookupTarget>();
+	    targets = new Vector<>();
 	    targetsByPropertyName.put(propertyName, targets);
 	}
 	PropertyHookupTarget target;
 	for (int i = 0; i < targets.size(); i++) {
-	    target = (PropertyHookupTarget) targets.elementAt(i);
+	    target = targets.elementAt(i);
 	    if (target.setter == setter && target.object == targetObject) {
 		// We've already got this hookup.  Just return.
 		return;
@@ -66,9 +66,9 @@ public class PropertyHookup implements PropertyChangeListener, Serializable {
 
 	// propagate the initial value.
 	try {
-	    Object args1[] = { };
+	    Object[] args1 = { };
 	    Object value = getter.invoke(source, args1);
-	    Object args2[] = { value };
+	    Object[] args2 = { value };
 	    setter.invoke(targetObject, args2);
 	} catch (InvocationTargetException ex) {
 	    System.err.println("Property propagation failed");
@@ -88,7 +88,7 @@ public class PropertyHookup implements PropertyChangeListener, Serializable {
 
 	Vector<PropertyHookupTarget> targets = targetsByPropertyName.get(propertyName);
 	if (targets == null) {
-	    targets = new Vector<PropertyHookupTarget>();
+	    targets = new Vector<>();
 	    targetsByPropertyName.put(propertyName, targets);
 	}
 	PropertyHookupTarget target;
@@ -108,7 +108,7 @@ public class PropertyHookup implements PropertyChangeListener, Serializable {
 
     public PropertyHookup(Object source) {
 	this.source = source;	
-	targetsByPropertyName = new Hashtable<String, Vector<PropertyHookupTarget>>();
+	targetsByPropertyName = new Hashtable<>();
     }
 
     /**
@@ -124,7 +124,7 @@ public class PropertyHookup implements PropertyChangeListener, Serializable {
 	if (targets == null) {
 	    return;
 	}
-	Object args[] = { evt.getNewValue() };
+	Object[] args = { evt.getNewValue() };
 	for (int i = 0; i < targets.size(); i++) {
 	    PropertyHookupTarget target
 		= targets.elementAt(i);
@@ -174,9 +174,9 @@ public class PropertyHookup implements PropertyChangeListener, Serializable {
 // Information for an event delivery target.
 class PropertyHookupTarget implements Serializable {
 
-    static final long serialVersionUID = -8352305996623495352L;
+    private static final long serialVersionUID = -8352305996623495352L;
 
-    private static int ourVersion = 1;
+    private static final int ourVersion = 1;
     Object object;
     Method setter;
 
@@ -203,13 +203,13 @@ class PropertyHookupTarget implements Serializable {
 	// We do a rather expensive search for a setter method
 	// matching the given setterName.
 	setter = null;
-	Method methods[] = object.getClass().getMethods();
-	for (int i = 0; i < methods.length; i++) {
-	    if (methods[i].toString().equals(setterName)) {
-		setter = methods[i];
-		break;
-	    }
-	}
+	Method[] methods = object.getClass().getMethods();
+        for (Method method : methods) {
+            if (method.toString().equals(setterName)) {
+                setter = method;
+                break;
+            }
+        }
 	if (setter == null) {
 	    throw new IOException("PropertyHookupTarget : no suitable setter" +
 			"\n    " + setterName + 

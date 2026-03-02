@@ -17,7 +17,7 @@ package visualap;
 
 public class BeanException extends Exception {
 
-	static final long serialVersionUID = 2236965387095482262L;
+	private static final long serialVersionUID = 2236965387095482262L;
 
     public BeanException(String message) {
         super(message);

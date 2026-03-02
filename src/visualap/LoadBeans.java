@@ -86,8 +86,8 @@ class LoadBeans extends ArrayList<BeanDelegate> {
         for (int i=0; i<min; i++) {
 			if (ver.charAt(i) < ver2.charAt(i))
 				return true;
-			else if (ver.charAt(i) == ver2.charAt(i))
-					continue;
+			else if (ver.charAt(i) == ver2.charAt(i)) {
+            }
 				else break;
 		}
 		return false;

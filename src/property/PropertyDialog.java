@@ -24,8 +24,8 @@ import java.beans.*;
 
 class PropertyDialog extends Dialog implements ActionListener {
 
-    private Button doneButton;
-    private Component body;
+    private final Button doneButton;
+    private final Component body;
     private final static int vPad = 5;
     private final static int hPad = 4;
 

@@ -1075,7 +1075,7 @@ private class InsertBean implements callback {
 					else {
 						System.out.print("Type of javabean: Source");
 						try {
-							bean.clazz.getMethod("iterate",new Class[0]);	
+							bean.clazz.getMethod("iterate");
 							System.out.print(" iterative");
 						}
 						catch (NoSuchMethodException ex) {} // don't care

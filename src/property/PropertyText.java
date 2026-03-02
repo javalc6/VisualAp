@@ -71,5 +71,5 @@ class PropertyText extends TextField implements KeyListener, FocusListener {
     }
 
     //----------------------------------------------------------------------
-    private PropertyEditor editor;
+    private final PropertyEditor editor;
 }

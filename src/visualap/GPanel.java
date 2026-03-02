@@ -44,8 +44,8 @@ class GPanel extends JPanel implements Printable, MouseListener, MouseMotionList
 	final VisualAp parent;
 
     Point pick = null;
-	final Selection<Node> selection = new Selection<Node>();
-	GList<Node> nodeL = new GList<Node>();
+	final Selection<Node> selection = new Selection<>();
+	GList<Node> nodeL = new GList<>();
 	Pin drawEdge;
 	final Edges EdgeL = new Edges();
 	Point mouse;
@@ -110,7 +110,7 @@ class GPanel extends JPanel implements Printable, MouseListener, MouseMotionList
 			}
 		} else { // aNode instanceof NodeBean
 			propertySheet.setVisible(true);
-			propertySheet.setTarget(((NodeBean)aNode).getObject(), ((NodeBean)aNode).getLabel());
+			propertySheet.setTarget(((NodeBean)aNode).getObject(), aNode.getLabel());
 		}
 	}
 
@@ -125,8 +125,8 @@ class GPanel extends JPanel implements Printable, MouseListener, MouseMotionList
         for (int i=0; i<min; i++) {
 			if (ver.charAt(i) < ver2.charAt(i))
 				return true;
-			else if (ver.charAt(i) == ver2.charAt(i))
-					continue;
+			else if (ver.charAt(i) == ver2.charAt(i)) {
+            }
 				else break;
 		}
 		return false;
@@ -159,7 +159,7 @@ class GPanel extends JPanel implements Printable, MouseListener, MouseMotionList
 		GList<Node> nl;
 		try {
 			Object obj = decoder.readObject();
-			if ((obj == null)|| !(obj instanceof Header)) 
+			if (!(obj instanceof Header))
 				throw new IOException("Invalid file format");
 			Header hd = (Header)obj;
 			if (!hd.get("version").equals("1.0"))
@@ -171,7 +171,7 @@ class GPanel extends JPanel implements Printable, MouseListener, MouseMotionList
 				throw new IOException("Invalid file format");
 			globalVars = (HashMap)obj; 
 			obj = decoder.readObject();
-			if ((obj == null)|| !(obj instanceof GList)) 
+			if (!(obj instanceof GList))
 				throw new IOException("Invalid file format");
 			nl = (GList<Node>)obj;  // unchecked conversion
 			for (Node aNode : nl) {
@@ -260,9 +260,9 @@ class GPanel extends JPanel implements Printable, MouseListener, MouseMotionList
 			Point from = aEdge.from.getLocation();
 			Point to = aEdge.to.getLocation();
 			g.drawLine(from.x, from.y, to.x, to.y);
-			if (aEdge.from.getType() == "input")
+			if (aEdge.from.getType().equals("input"))
 				paintArrow(to, from, g);
-			if (aEdge.to.getType() == "input")
+			if (aEdge.to.getType().equals("input"))
 				paintArrow(from, to, g);
 		}
 		revalidate();
@@ -364,7 +364,7 @@ class GPanel extends JPanel implements Printable, MouseListener, MouseMotionList
 				Node aNode = it.previous();
 				Object sel = aNode.contains(x,y);
 				if ((sel instanceof Pin)&&(!drawEdge.equals(sel))) {
-					if ((drawEdge.getType() == "input") || (((Pin)sel).getType() == "input")) // at least one pin must be an input!
+					if ((drawEdge.getType().equals("input")) || (((Pin) sel).getType().equals("input"))) // at least one pin must be an input!
 						if (!EdgeL.contains(drawEdge, (Pin) sel)) {
 							EdgeL.add(drawEdge, (Pin) sel); // connect pin drawEdge to pin sel
 						}

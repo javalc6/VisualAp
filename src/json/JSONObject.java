@@ -55,7 +55,7 @@ final public class JSONObject extends JSONValue {
 //never happen
 				}
 			} else if (element instanceof ArrayList) {
-				value.put(key, new JSONArray((ArrayList<Object>) element));
+				value.put(key, new JSONArray((ArrayList<?>) element));
 			} else if (element instanceof LinkedHashMap) {
 				value.put(key, new JSONObject((LinkedHashMap<String, Object>) element));
 			} else if (element instanceof JSONValue) {

@@ -27,10 +27,10 @@ class PropertySelector extends Choice implements ItemListener {
 
     PropertySelector(PropertyEditor pe) {
 	editor = pe;
-	String tags[] = editor.getTags();
-	for (int i = 0; i < tags.length; i++) {
-	    addItem(tags[i]);
-	}
+	String[] tags = editor.getTags();
+        for (String tag : tags) {
+            addItem(tag);
+        }
 	select(0);
 	// This is a noop if the getAsText is not a tag.
 	select(editor.getAsText());

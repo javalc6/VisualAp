@@ -22,11 +22,12 @@ import java.beans.*;
 import java.lang.reflect.*;
 import java.awt.*;
 import java.util.Hashtable;
+import java.util.Objects;
 import java.util.Vector;
 
 public class PropertySheet extends Frame implements PropertyChangeListener {
-    private PropertySheetPanel panel;
-    private boolean started;
+    private final PropertySheetPanel panel;
+    private final boolean started;
 
     public PropertySheet(Object bean, String label, int x, int y) {
 		super("Properties - <initializing...>");
@@ -65,21 +66,21 @@ public class PropertySheet extends Frame implements PropertyChangeListener {
 
 class PropertySheetPanel extends Panel {
 
-    private PropertySheet frame;
+    private final PropertySheet frame;
 
     // We need to cache the targets' wrapper so we can annoate it with
     // information about what target properties have changed during design
     // time.
     private Object target;
-    private PropertyDescriptor properties[];
-    private PropertyEditor editors[];
-    private Object values[];
-    private Component views[];
-    private Label labels[];
+    private PropertyDescriptor[] properties;
+    private PropertyEditor[] editors;
+    private Object[] values;
+    private Component[] views;
+    private Label[] labels;
 
     private boolean processEvents;
-    private static int hPad = 4;
-    private static int vPad = 4;
+    private static final int hPad = 4;
+    private static final int vPad = 4;
     private int maxHeight = 500;
     private int maxWidth = 300;
 
@@ -143,7 +144,7 @@ class PropertySheetPanel extends Panel {
 			Component view = null;
 
 			try {
-				Object args[] = { };
+				Object[] args = { };
 				Object value = getter.invoke(target, args);
 				values[i] = value;
 
@@ -387,7 +388,7 @@ class PropertySheetPanel extends Panel {
 				values[i] = value;
 				Method setter = property.getWriteMethod();
 				try {
-					Object args[] = { value };
+					Object[] args = { value };
 					args[0] = value;
 					setter.invoke(target, args);
 					
@@ -421,12 +422,12 @@ class PropertySheetPanel extends Panel {
 			Object o;
 			try {
 				Method getter = properties[i].getReadMethod();
-				Object args[] = { };
+				Object[] args = { };
 				o = getter.invoke(target, args);
 			} catch (Exception ex) {
 			o = null;
 			}
-			if (o == values[i] || (o != null && o.equals(values[i]))) {
+			if (Objects.equals(o, values[i])) {
 				// The property is equal to its old value.
 			continue;
 			}

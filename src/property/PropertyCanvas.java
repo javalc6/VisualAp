@@ -61,6 +61,6 @@ class PropertyCanvas extends Canvas implements MouseListener {
     public void mouseExited(MouseEvent evt) {
     }
 
-    private Frame frame;
-    private PropertyEditor editor;
+    private final Frame frame;
+    private final PropertyEditor editor;
 }

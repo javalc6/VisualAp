@@ -76,7 +76,6 @@ public class HelpWindow extends JFrame{
             ErrorPrinter.printInfo("Help URL is null");
         }
 
-        return;
     }
 
 

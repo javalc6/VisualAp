@@ -17,7 +17,7 @@ package visualap;
 
 public class VersionException extends Exception {
 
-	static final long serialVersionUID = -2995186027475769430L;
+	private static final long serialVersionUID = -2995186027475769430L;
 
     public VersionException(String message) {
         super(message);
