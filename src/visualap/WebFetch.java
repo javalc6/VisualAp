@@ -2,6 +2,7 @@
 Version 1.0, 03-02-2008, First release
 Version 1.2.2, 15-12-2025, added new method fetchJsonElement
 Version 1.2.3, 12-01-2025, added new method fetchContent
+Version 1.2.4, 02-03-2026, deprecated URL constructor replaced with URI constructor
 
 IMPORTANT NOTICE, please read:
 
@@ -28,8 +29,8 @@ import java.util.stream.Collectors;
 
 public class WebFetch {
 
-	public String fetchURL(String urlName, String element) throws IOException {
-		URL url = new URL(urlName);
+	public String fetchURL(String urlName, String element) throws IOException, URISyntaxException {
+		URL url = new URI(urlName).toURL();
 		HttpURLConnection connection = (HttpURLConnection)url.openConnection();
 		String os = System.getProperty("os.name")+";"+System.getProperty("os.arch")+";"+System.getProperty("os.version");
 		connection.setRequestProperty("User-Agent",VisualAp.getAppName()+" "+Setup.version+"("+os+")");
@@ -50,8 +51,8 @@ public class WebFetch {
 		return null;
 	}
 
-	public void fetchFile(String urlName, File outFile) throws IOException {
-		URL url = new URL(urlName);
+	public void fetchFile(String urlName, File outFile) throws IOException, URISyntaxException {
+		URL url = new URI(urlName).toURL();
 		HttpURLConnection connection = (HttpURLConnection)url.openConnection();
 		String os = System.getProperty("os.name")+";"+System.getProperty("os.arch")+";"+System.getProperty("os.version");
 		connection.setRequestProperty("User-Agent",VisualAp.getAppName()+" "+Setup.version+"("+os+")");
@@ -72,8 +73,8 @@ public class WebFetch {
 	}
 
 
-	public String fetchContent(String urlName) throws IOException {
-		URL url = new URL(urlName);
+	public String fetchContent(String urlName) throws IOException, URISyntaxException {
+		URL url = new URI(urlName).toURL();
 		HttpURLConnection connection = (HttpURLConnection)url.openConnection();
 		String os = System.getProperty("os.name")+";"+System.getProperty("os.arch")+";"+System.getProperty("os.version");
 		connection.setRequestProperty("User-Agent",VisualAp.getAppName()+" "+Setup.version+"("+os+")");
@@ -87,8 +88,8 @@ public class WebFetch {
 		return content;
 	}
 
-	public String fetchJsonElement(String urlName, String element) throws IOException {
-		URL url = new URL(urlName);
+	public String fetchJsonElement(String urlName, String element) throws IOException, URISyntaxException {
+		URL url = new URI(urlName).toURL();
 		HttpURLConnection connection = (HttpURLConnection)url.openConnection();
 		String os = System.getProperty("os.name")+";"+System.getProperty("os.arch")+";"+System.getProperty("os.version");
 		connection.setRequestProperty("User-Agent",VisualAp.getAppName()+" "+Setup.version+"("+os+")");

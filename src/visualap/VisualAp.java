@@ -52,6 +52,8 @@ import javax.swing.event.*;
 import javax.swing.text.html.*;
 import java.awt.print.*;
 import java.io.*;
+import java.net.URL;
+import java.net.URISyntaxException;
 import java.nio.file.*;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -62,7 +64,6 @@ import parser.*;
 //  MDI Support
 import javax.swing.JInternalFrame;
 import javax.swing.JDesktopPane;
-import java.net.URL;
 import java.util.prefs.*;
 import graph.*;
 // Drag and drop Support
@@ -368,7 +369,7 @@ private class InsertBean implements callback {
 				JOptionPane.showMessageDialog(VisualAp.this, "Connection cannot be setup\nPlease read help","Error",JOptionPane.ERROR_MESSAGE);
 				hWindow.setPage(VisualAp.class.getResource("helpfile5a.html"));
 			}
-			catch (IOException | JSONException | NoSuchAlgorithmException ioex) {
+			catch (IOException | URISyntaxException | JSONException | NoSuchAlgorithmException ioex) {
 				JOptionPane.showMessageDialog(VisualAp.this, "Technical problems\n"+ioex.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
 			}
 			setCursor(savedCursor);
@@ -719,7 +720,7 @@ private class InsertBean implements callback {
 					if (showErrorDialog("Connection cannot be setup\nPlease read help"))
 						hWindow.setPage(VisualAp.class.getResource("helpfile5a.html"));
 				}
-				catch (IOException ex) {
+				catch (IOException | URISyntaxException ex) {
 					JOptionPane.showMessageDialog(VisualAp.this, "Technical problems\n"+ex.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
 				}
 
