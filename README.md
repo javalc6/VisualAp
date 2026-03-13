@@ -1,8 +1,8 @@
 # VisualAp
-``VisualAp`` is a visual framework for building application and systems based on visual components.
+``VisualAp`` is a visual framework for building processing systems using visual components.
 ## Overview
-``VisualAp`` can be used in order to perform audio processing, image processing, text and other process-driven emulation. VisualAp provides a visual framework based on lightweight components, called proclet.
-The user can create an application by selecting the components from a toolbox, configuring the parameters (via the Javabeans framework), and connecting the components together in order to set-up communication channels between the components. Please [click here](wiki/VisualAp.wiki) and read the [user guide](doc/userguide.pdf) for more information. 
+``VisualAp`` performs audio processing, image processing, text and other process-driven emulation. It provides a visual framework based on lightweight components, called proclet.
+The user can build a system by selecting the components from the toolbox, configuring component's parameters (via the Javabeans framework), and connecting the components together in order to enable communication channels between the components. Please [click here](wiki/VisualAp.wiki) and read the [user guide](doc/userguide.pdf) for more information. 
 
 This application has been tested wit Java 11 and Java 25.
 
